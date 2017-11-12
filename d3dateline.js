@@ -1,14 +1,14 @@
 function loadchart(div, json) {
     // pass in id of div where the svg will live and name/url of json data
-    var timeWidth = 100,
-        height = 500,
+    var timeWidth = 200,
+        height = 400,
         margin = {
             top: 40,
             right: 40,
             bottom: 0,
             left: 40
         },
-        radius = 11;
+        radius = 13;
 
     // ctlx and ctly are the offsets for the control points for the Bezier curve.
     //   ctly is subtracted from source and target, to place control point
@@ -25,7 +25,7 @@ function loadchart(div, json) {
         // TODO discover latest by looking rather than assuming the nodes are sorted
         var latest = new Date(graph.nodes[graph.nodes.length - 1].date);
         // number of days in the data set ...
-        var interval = (latest - earliest) / 1000 / 24 + 1;
+        var interval = (latest - earliest) / 1000 / 24;
         // ... determines the width of the svg
         var width = interval * timeWidth;
 
@@ -61,29 +61,17 @@ function loadchart(div, json) {
             .ticks(d3.time.hours, 6)
             .tickFormat(d3.time.format('%a %-e'))
             .tickSize(5)
-            .tickPadding(8);
-
-        var xAxisMonths = d3.svg.axis()
-            .scale(x)
-            .orient("bottom")
-            .ticks(d3.time.months, 1)
-            .tickFormat(d3.time.format("%B %Y"))
-            .tickSize(5, 0);
+            .tickPadding(1);
 
         svg.append('g')
             .attr('class', 'x axis houraxis')
             .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
             .call(xAxisTimes);
-	/*
-        svg.append('g')
-            .attr('class', 'x axis monthaxis')
-            .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-            .attr('style', 'opacity: 0.1')
-            .call(xAxisMonths);*/
 
         svg.append('g')
             .attr('class', 'x axis dayaxis')
-            .attr('transform', 'translate(0, ' + (height) + ')')
+            .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+	    .attr('style', 'opacity: 0.4')
             .call(xAxisDays);
 
 		/************************
