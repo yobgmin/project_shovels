@@ -1,0 +1,20 @@
+{
+		"nodes": [
+         {"name": "Letter 1","date":"2017-03-27","id":1,"from":"F","type":"fixed"},
+         {"name": "Letter 2","date":"2017-03-30","id":2,"from":"F","type":"fixed"},
+         {"name": "Letter 3","date":"2017-03-29","id":3,"from":"R","type":"hasAnswer"},
+         {"name": "Letter 4","date":"2017-03-30","id":4,"from":"R","type":"fixed"},
+         {"name": "Letter 5","date":"2017-03-30","id":5,"from":"R","type":"fixed"},
+         {"name": "Letter 6","date":"2017-04-01","id":6,"from":"F","type":"fixed"},
+         {"name": "Letter 7","date":"2017-04-02","id":7,"from":"F","type":"fixed"},
+         {"name": "Letter 8","date":"2017-03-30","id":3,"from":"R","type":"free"},
+         {"name": "Letter 9","date":"2017-04-01","id":9,"from":"R","type":"isAnswer"},
+         {"name": "Letter 10","date":"2017-03-30","id":10,"from":"R","type":"free"},
+         {"name": "Letter 11","date":"2017-05-02","id":11,"from":"R","type":"free"}
+      ],
+      
+      "links": [
+
+      ]
+			
+}
