@@ -8,7 +8,7 @@ function loadchart(div, json) {
             bottom: 0,
             left: 40
         },
-        radius = 13;
+        radius = 10;
 
     // ctlx and ctly are the offsets for the control points for the Bezier curve.
     //   ctly is subtracted from source and target, to place control point
@@ -235,6 +235,7 @@ function loadchart(div, json) {
         function tick(e) {
             // artificial gravity, based on node type
             var k = 20 * e.alpha;
+/*
             graph.nodes.forEach(function (o, i) {
                 if (o.type == "isAnswer") // move right
                     o.x += k;
@@ -242,7 +243,7 @@ function loadchart(div, json) {
                     o.x += -k;
                 else if (o.type == "free") // move up
                     o.y += -k;
-            });
+            });*/
 
 			// handle collisions
             var q = d3.geom.quadtree(graph.nodes),
