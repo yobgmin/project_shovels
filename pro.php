@@ -73,6 +73,9 @@ SELECT * from create_remote_thread_tbl where TargetImage like '%explorer.exe';";
 SELECT * from network_connect_tbl where Image like '%dhwcj.exe;'";
 // myquery_RemotePwdump에서 찾은 Process(Random한 이름을 갖는 것으로 생각됨)가 어떻게 원격 연결을 수행하였는지 확인하는 쿼리
 
+  $net="
+SELECT * from proc_create_tbl where Image like '%net1.exe' or Image like '%net.exe';";
+
   $netuser="
 SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\lsass';";
 
@@ -125,6 +128,7 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_taskeng=mysqli_query($server,$taskeng);
 	$query_taskeng_low=mysqli_query($server,$taskeng_low);
 	$query_taskeng_low2=mysqli_query($server,$taskeng_low2);
+	$query_net=mysqli_query($server,$net);
 	$query_netuser=mysqli_query($server,$netuser);
 	$query_netview=mysqli_query($server,$netview);
 	$query_netuse=mysqli_query($server,$netuse);
@@ -293,6 +297,21 @@ $pimage10[]=$data[$x][ParentImage];
 echo "<tr><td>$pid10[$x]</td><td>$msg10[$x]</td><td>$hname10[$x]</td><td>$pimage10[$x]</td></tr>";
 }
 echo "</table>";
+
+echo "net";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_net);$x++){
+$data[$x]=mysqli_fetch_array($query_net);
+}
+echo "<tr><td>EventTime</td><td>CommandLine</td><td>hostname</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_net);$x++){
+$eventtime[]=$data[$x][EventTime];
+$commandline[]=$data[$x][CommandLine];
+$hname[]=$data[$x][Hostname];
+echo "<tr><td>$eventtime[$x]</td><td>$commandline[$x]</td><td>$hname[$x]</td></tr>";
+}
+echo "</table>";
+
 
 echo "netuser";
 echo "<table border=1>";
