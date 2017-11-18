@@ -94,7 +94,7 @@ SELECT * from proc_create_tbl where ParentImage like '%WmiPrvSE.exe';";
 // Explorer.exe 등이 아닌 WmiPrvSE.exe가 프로세스 실행 -> 원격 실행 의심 가능
 
   $wmic2="
-SELECT * from network_connect_tbl where Image like '%WmiPrvSE.exe';";
+SELECT * from network_connect_tbl  where Image like '%wmic.exe';";
 // 실제 원격 연결 여부 확인
 
   $wmiexecvbs="
@@ -134,6 +134,8 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_netuse=mysqli_query($server,$netuse);
 	$query_netuse2=mysqli_query($server,$netuse2);
 	$query_mimikatz=mysqli_query($server,$mimikatz);
+	$query_wmic=mysqli_query($server,$wmic);
+	$query_wmic2=mysqli_query($server,$wmic2);
 
  if ( ! $query ) {
         echo mysql_error();
@@ -383,6 +385,34 @@ $msg15[]=$data[$x][msg];
 $hname15[]=$data[$x][Hostname];
 $pimage15[]=$data[$x][ParentImage];
 echo "<tr><td>$pid15[$x]</td><td>$msg15[$x]</td><td>$hname15[$x]</td><td>$pimage15[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "wmic_process";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($wmic);$x++){
+$data[$x]=mysqli_fetch_array($wmic);
+}
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
+for($x=0;$x<mysqli_num_rows($wmic);$x++){
+$pid16[]=$data[$x][ProcessID];
+$msg16[]=$data[$x][msg];
+$hname16[]=$data[$x][Hostname];
+echo "<tr><td>$pid16[$x]</td><td>$msg16[$x]</td><td>$hname16[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "wmic_process";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($wmic2);$x++){
+$data[$x]=mysqli_fetch_array($wmic2);
+}
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
+for($x=0;$x<mysqli_num_rows($wmic2);$x++){
+$pid17[]=$data[$x][ProcessID];
+$msg17[]=$data[$x][msg];
+$hname17[]=$data[$x][Hostname];
+echo "<tr><td>$pid17[$x]</td><td>$msg17[$x]</td><td>$hname17[$x]</td></tr>";
 }
 echo "</table>";
 
