@@ -137,7 +137,8 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_wmic=mysqli_query($server,$wmic);
 	$query_wmic2=mysqli_query($server,$wmic2);
 	$query_winrs=mysqli_query($server,$winrs);
-	$query_winrs2=mysqli_query($server,$winrs3);
+	$query_winrs3=mysqli_query($server,$winrs3);
+	$query_winrs2=mysqli_query($server,$winrs2);
 
  if ( ! $query ) {
         echo mysql_error();
@@ -439,6 +440,21 @@ $data[$x]=mysqli_fetch_array($query_winrs2);
 }
 echo "<tr><td>pid</td><td>msg</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs2);$x++){
+$pid19[]=$data[$x][ProcessID];
+$msg19[]=$data[$x][msg];
+$hname19[]=$data[$x][Hostname];
+$EventTime[]=$data[$x][EventTime];
+echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td><td>$EventTime[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "winrs_network2";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
+$data[$x]=mysqli_fetch_array($query_winrs3);
+}
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td><td>Time</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 $pid19[]=$data[$x][ProcessID];
 $msg19[]=$data[$x][msg];
 $hname19[]=$data[$x][Hostname];
