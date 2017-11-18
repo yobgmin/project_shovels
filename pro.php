@@ -328,7 +328,7 @@ echo "<table border=1>";
 $data[$x]=mysqli_fetch_array($query_netuse2);
 }
 echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
-for($x=0;$x<mysqli_num_rows($query_netuse);$x++){
+for($x=0;$x<mysqli_num_rows($query_netuse2);$x++){
 $pid12[]=$data[$x][ProcessID];
 $msg12[]=$data[$x][msg];
 $hname12[]=$data[$x][Hostname];
