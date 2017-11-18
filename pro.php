@@ -322,6 +322,20 @@ echo "<tr><td>$pid12[$x]</td><td>$msg12[$x]</td><td>$hname12[$x]</td></tr>";
 }
 echo "</table>";
 
+echo "netuse2";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_netuse2);$x++){
+$data[$x]=mysqli_fetch_array($query_netuse2);
+}
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_netuse);$x++){
+$pid12[]=$data[$x][ProcessID];
+$msg12[]=$data[$x][msg];
+$hname12[]=$data[$x][Hostname];
+echo "<tr><td>$pid12[$x]</td><td>$msg12[$x]</td><td>$hname12[$x]</td></tr>";
+}
+echo "</table>";
+
 echo "netview";
 echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_netview);$x++){
