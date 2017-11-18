@@ -133,6 +133,7 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_netview=mysqli_query($server,$netview);
 	$query_netuse=mysqli_query($server,$netuse);
 	$query_netuse2=mysqli_query($server,$netuse2);
+	$query_mimikatz=mysqli_query($server,$mimikatz);
 
  if ( ! $query ) {
         echo mysql_error();
