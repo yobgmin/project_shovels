@@ -349,10 +349,10 @@ $data[$x]=mysqli_fetch_array($query_netuse2);
 }
 echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_netuse2);$x++){
-$pid12[]=$data[$x][ProcessID];
-$msg12[]=$data[$x][msg];
-$hname12[]=$data[$x][Hostname];
-echo "<tr><td>$pid12[$x]</td><td>$msg12[$x]</td><td>$hname12[$x]</td></tr>";
+$pid13[]=$data[$x][ProcessID];
+$msg13[]=$data[$x][msg];
+$hname13[]=$data[$x][Hostname];
+echo "<tr><td>$pid13[$x]</td><td>$msg13[$x]</td><td>$hname13[$x]</td></tr>";
 }
 echo "</table>";
 
@@ -361,12 +361,27 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_netview);$x++){
 $data[$x]=mysqli_fetch_array($query_netview);
 }
-echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td><td>hostname</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_netview);$x++){
-$pid13[]=$data[$x][ProcessID];
-$msg13[]=$data[$x][msg];
-$hname13[]=$data[$x][Hostname];
-echo "<tr><td>$pid13[$x]</td><td>$msg13[$x]</td><td>$hname13[$x]</td></tr>";
+$pid14[]=$data[$x][ProcessID];
+$msg14[]=$data[$x][msg];
+$hname14[]=$data[$x][Hostname];
+echo "<tr><td>$pid14[$x]</td><td>$msg14[$x]</td><td>$hname14[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "mimikatz";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_mimikatz);$x++){
+$data[$x]=mysqli_fetch_array($query_mimikatz);
+}
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td<td>ParentImage</td>></tr>";
+for($x=0;$x<mysqli_num_rows($query_mimikatz);$x++){
+$pid15[]=$data[$x][ProcessID];
+$msg15[]=$data[$x][msg];
+$hname15[]=$data[$x][Hostname];
+$pimage15[]=$data[$x][ParentImage];
+echo "<tr><td>$pid15[$x]</td><td>$msg15[$x]</td><td>$hname15[$x]</td><td>$pimage15[$x]</td></tr>";
 }
 echo "</table>";
 
