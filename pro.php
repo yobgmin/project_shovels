@@ -437,12 +437,13 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_winrs2);$x++){
 $data[$x]=mysqli_fetch_array($query_winrs2);
 }
-echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs2);$x++){
 $pid19[]=$data[$x][ProcessID];
 $msg19[]=$data[$x][msg];
 $hname19[]=$data[$x][Hostname];
-echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td></tr>";
+$EventTime[]=$data[$x][EventTime];
+echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td><td>EventTime[$x]/td></tr>";
 }
 echo "</table>";
 
