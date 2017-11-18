@@ -443,7 +443,7 @@ $pid19[]=$data[$x][ProcessID];
 $msg19[]=$data[$x][msg];
 $hname19[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
-echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td><td>EventTime[$x]</td></tr>";
+echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td><td>$EventTime[$x]</td></tr>";
 }
 echo "</table>";
 
