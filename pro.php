@@ -308,7 +308,7 @@ for($x=0;$x<mysqli_num_rows($query_net);$x++){
 $eventtime[]=$data[$x][EventTime];
 $commandline[]=$data[$x][CommandLine];
 $hname[]=$data[$x][Hostname];
-$pimage[]=%data[$x][ParentImage];
+$pimage[]=$data[$x][ParentImage];
 echo "<tr><td>$eventtime[$x]</td><td>$commandline[$x]</td><td>$hname[$x]</td><td>$pimage[$x]</td></tr>";
 }
 echo "</table>";
