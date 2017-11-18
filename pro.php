@@ -139,6 +139,7 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_winrs=mysqli_query($server,$winrs);
 	$query_winrs3=mysqli_query($server,$winrs3);
 	$query_winrs2=mysqli_query($server,$winrs2);
+	$query_wmiexecvbs=mysqli_query($server,$wmiexecvbs);
 
  if ( ! $query ) {
         echo mysql_error();
@@ -460,6 +461,21 @@ $msg20[]=$data[$x][msg];
 $hname20[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
 echo "<tr><td>$pid20[$x]</td><td>$msg20[$x]</td><td>$hname20[$x]</td><td>$EventTime[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "wmiexecvbs";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_wmiexecvbs);$x++){
+$data[$x]=mysqli_fetch_array($query_wmiexecvbs);
+}
+echo "<tr><td>pid</td><td>hostname</td><td>Time</td><td>commandline</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_wmiexecvbs);$x++){
+$pid20[]=$data[$x][ProcessID];
+$hname20[]=$data[$x][Hostname];
+$EventTime[]=$data[$x][EventTime];
+$CommandLine[]=$data[$x][CommandLine];
+echo "<tr><td>$pid20[$x]</td><td>$hname20[$x]</td><td>$EventTime[$x]</td><td>$CommandLine[$x]</td></tr>";
 }
 echo "</table>";
 
