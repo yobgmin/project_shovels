@@ -390,11 +390,11 @@ echo "</table>";
 
 echo "wmic_process";
 echo "<table border=1>";
- 	for($x=0;$x<mysqli_num_rows($wmic);$x++){
-$data[$x]=mysqli_fetch_array($wmic);
+ 	for($x=0;$x<mysqli_num_rows($query_wmic);$x++){
+$data[$x]=mysqli_fetch_array($query_wmic);
 }
 echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
-for($x=0;$x<mysqli_num_rows($wmic);$x++){
+for($x=0;$x<mysqli_num_rows($query_wmic);$x++){
 $pid16[]=$data[$x][ProcessID];
 $msg16[]=$data[$x][msg];
 $hname16[]=$data[$x][Hostname];
@@ -404,11 +404,11 @@ echo "</table>";
 
 echo "wmic_process";
 echo "<table border=1>";
- 	for($x=0;$x<mysqli_num_rows($wmic2);$x++){
-$data[$x]=mysqli_fetch_array($wmic2);
+ 	for($x=0;$x<mysqli_num_rows($query_wmic2);$x++){
+$data[$x]=mysqli_fetch_array($query_wmic2);
 }
 echo "<tr><td>pid</td><td>msg</td><td>hostname</td></tr>";
-for($x=0;$x<mysqli_num_rows($wmic2);$x++){
+for($x=0;$x<mysqli_num_rows($query_wmic2);$x++){
 $pid17[]=$data[$x][ProcessID];
 $msg17[]=$data[$x][msg];
 $hname17[]=$data[$x][Hostname];
