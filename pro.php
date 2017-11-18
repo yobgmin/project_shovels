@@ -303,12 +303,13 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_net);$x++){
 $data[$x]=mysqli_fetch_array($query_net);
 }
-echo "<tr><td>EventTime</td><td>CommandLine</td><td>hostname</td></tr>";
+echo "<tr><td>EventTime</td><td>CommandLine</td><td>hostname</td><td>parentimage</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_net);$x++){
 $eventtime[]=$data[$x][EventTime];
 $commandline[]=$data[$x][CommandLine];
 $hname[]=$data[$x][Hostname];
-echo "<tr><td>$eventtime[$x]</td><td>$commandline[$x]</td><td>$hname[$x]</td></tr>";
+$pimage[]=%data[$x][ParentImage];
+echo "<tr><td>$eventtime[$x]</td><td>$commandline[$x]</td><td>$hname[$x]</td><td>$pimage[$x]</td></tr>";
 }
 echo "</table>";
 
