@@ -60,6 +60,54 @@ select * from proc_create_tbl where processid ='1468' and not image like '%cmd.e
 	$taskeng="
 select * from proc_create_tbl where image like '%taskeng.exe' and processid ='1504';
 ";
+
+  $mimikatz="
+SELECT * from proc_access_tbl where TargetImage like '%lsass.exe' and GrantedAccess like '0x1010';"
+// Mimikatz - sekursla::logonpasswords
+
+  $RemotePwdump="
+SELECT * from create_remote_thread_tbl where TargetImage like '%explorer.exe';"
+  // lsass.exe에 CreateRemoteThread -> 강력한 의심 가능
+
+  $RemotePwdump2="
+SELECT * from network_connect_tbl where Image like '%dhwcj.exe;'"
+// myquery_RemotePwdump에서 찾은 Process(Random한 이름을 갖는 것으로 생각됨)가 어떻게 원격 연결을 수행하였는지 확인하는 쿼리
+
+  $netuser="
+SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\lsass';"
+
+  $netview="
+SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\browser';"
+
+  $netuse="
+SELECT * from pipe_connected_tbl where Image like '%net.exe' and PipeName like '%\wkssvc';"
+
+  $netuse2="
+SELECT * from network_connect_tbl where Image like '%net.exe';"
+// 어떤 netuse명령이었는지 추적할 수 있는 쿼리
+  
+  $wmic="
+SELECT * from proc_create_tbl where ParentImage like '%WmiPrvSE.exe';"
+// Explorer.exe 등이 아닌 WmiPrvSE.exe가 프로세스 실행 -> 원격 실행 의심 가능
+
+  $wmic2="
+SELECT * from network_connect_tbl where Image like '%WmiPrvSE.exe';"
+// 실제 원격 연결 여부 확인
+
+  $wmiexecvbs="
+SELECT * from proc_create_tbl where ParentImage like '%WScript.exe';"
+// net use 명령어가 실행되었을 경우($myquery_netuse) 그것이 wmiexec.vbs에 의한 실행인지 파악할 수 있는 쿼리
+
+  $winrs="
+SELECT * from proc_create_tbl where ParentImage like '%WinrsHost.exe';"
+
+  $winrs2="
+SELECT * from network_connect_tbl where Image like '%WinrsHost.exe';"
+
+  $winrs3="
+SELECT * from network_connect_tbl where SourcePort like 5985;"
+// Port 5985를 기본으로 사용한다는 점을 이용
+
     $query = mysqli_query($server,$myquery);
 	$query2 = mysqli_query($server,$myquery2);
 	$query_at=mysqli_query($server,$myquery_at);
@@ -77,6 +125,11 @@ select * from proc_create_tbl where image like '%taskeng.exe' and processid ='15
 	$query_taskeng=mysqli_query($server,$taskeng);
 	$query_taskeng_low=mysqli_query($server,$taskeng_low);
 	$query_taskeng_low2=mysqli_query($server,$taskeng_low2);
+	$query_netuser=mysqli_query($server,$netuser);
+	$query_netview=mysqli_query($server,$netview);
+	$query_netuse=mysqli_query($server,$netuse);
+	$query_netuse2=mysqli_query($server,$netuse2);
+
  if ( ! $query ) {
         echo mysql_error();
         die;
@@ -240,6 +293,21 @@ $pimage10[]=$data[$x][ParentImage];
 echo "<tr><td>$pid10[$x]</td><td>$msg10[$x]</td><td>$hname10[$x]</td><td>$pimage10[$x]</td></tr>";
 }
 echo "</table>";
+
+echo "netuser";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_taskeng_low2);$x++){
+$data[$x]=mysqli_fetch_array($query_netuser);
+}
+echo "<tr><td>pid</td><td>msg</td><td>hostname</td><td>parentimage</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_taskeng_low2);$x++){
+$pid11[]=$data[$x][ProcessID];
+$msg11[]=$data[$x][msg];
+$hname11[]=$data[$x][Hostname];
+echo "<tr><td>$pid11[$x]</td><td>$msg11[$x]</td><td>$hname11[$x]</td></tr>";
+}
+echo "</table>";
+
 
 
     mysqli_close($server); 
