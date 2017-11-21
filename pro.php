@@ -508,30 +508,11 @@ $data[$x]=mysqli_fetch_array($query_remotepwdump);
 echo $data[0][EventTime], $data[1][EventTime];
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
+		//$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
 $Image22[]=$data[$x][SourceImage];
 $hname22[]=$data[$x][Hostname];
 $EventTime22[]=$data[$x][EventTime];
 echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></tr>";
-}
-echo "</table>";
-
-
-echo "RemotePwdump2";
-echo "<table border=1>";
- 	for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
-$data[$x]=mysqli_fetch_array($query_remotepwdump);
-}
-echo $data[0][EventTime];
-//echo "SELECT * from pipe_created_tbl where EventTime like '".$data[0][EventTime]."';";
-echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
-for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
-
-	//$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
-	//$yongmin=mysqli_fetch_array($query_remotetime);
-	$Image23[]=data[$x][SourceImage];
-	$hname23[]=data[$x][Hostname];
-	$EventTime23[]=data[$x][EventTime];
-echo "<tr><td>$Image23[$x]</td><td>$hname23[$x]</td><td>$EventTime23[$x]</td></tr>";
 }
 echo "</table>";
 
