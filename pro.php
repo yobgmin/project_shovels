@@ -496,8 +496,8 @@ $data[$x]=mysqli_fetch_array($query_pwdump7);
 }
 echo "<tr><td>pid</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
-$pid20[]=$data[$x][ProcessID];
-$hname20[]=$data[$x][Hostname];
+$Image21[]=$data[$x][Image;
+$hname21[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
 echo "<tr><td>$pid21[$x]</td><td>$hname21[$x]</td><td>$EventTime[$x]</td></tr>";
 }
