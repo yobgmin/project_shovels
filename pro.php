@@ -521,7 +521,7 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $data[$x]=mysqli_fetch_array($query_remotepwdump);
 }
-echo "SELECT * from pipe_created_tbl where EventTime like '".$data[0][EventTime]."';";
+echo "SELECT * from pipe_created_tbl where EventTime like '".(string)$data[0][EventTime]."';";
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 
