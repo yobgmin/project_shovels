@@ -33,6 +33,11 @@ SELECT date FROM reg_set_value_tbl where targetobject like 'hklm%system%currentc
 	$myquery_badcmd="
 SELECT * from proc_create_tbl where image like '%cmd.exe' and not parentimage like '%explorer.exe' and not parentimage like '%vmtoolsd.exe';
 ";
+
+	$powershell="
+	SELECT * FROM reg_set_value_tbl where targetobject like 'HKLM%software%policies%Microsoft%windows%powershell%';
+";
+
 	$psexesvc="
 select * from proc_create_tbl where image like '%psexesvc.exe' and processid='1500';
 ";
@@ -65,8 +70,12 @@ select * from proc_create_tbl where image like '%taskeng.exe' and processid ='15
 SELECT * from proc_access_tbl where TargetImage like '%lsass.exe' and GrantedAccess like '0x1010';";
 // Mimikatz - sekursla::logonpasswords
 
+  $PwDump7="
+ SELECT Image from raw_access_read_tbl where Image not like '%System32%' and Image not like 'System' and Image not like '%TrustedInstaller.exe' and Image not like '%Everything.exe';
+";
+
   $RemotePwdump="
-SELECT * from create_remote_thread_tbl where TargetImage like '%explorer.exe';";
+SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe';";
   // lsass.exe에 CreateRemoteThread -> 강력한 의심 가능
 
   $RemotePwdump2="
@@ -140,6 +149,7 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_winrs3=mysqli_query($server,$winrs3);
 	$query_winrs2=mysqli_query($server,$winrs2);
 	$query_wmiexecvbs=mysqli_query($server,$wmiexecvbs);
+	$query_pwdump7=mysqli_query($server,$Pwdump7);
 
  if ( ! $query ) {
         echo mysql_error();
@@ -476,6 +486,20 @@ $hname20[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
 $CommandLine[]=$data[$x][CommandLine];
 echo "<tr><td>$pid20[$x]</td><td>$hname20[$x]</td><td>$EventTime[$x]</td><td>$CommandLine[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "Pwdump7(suspicious)";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
+$data[$x]=mysqli_fetch_array($query_pwdump7);
+}
+echo "<tr><td>pid</td><td>hostname</td><td>Time</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
+$pid20[]=$data[$x][ProcessID];
+$hname20[]=$data[$x][Hostname];
+$EventTime[]=$data[$x][EventTime];
+echo "<tr><td>$pid21[$x]</td><td>$hname21[$x]</td><td>$EventTime[$x]</td></tr>";
 }
 echo "</table>";
 
