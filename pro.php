@@ -75,12 +75,8 @@ SELECT * from proc_access_tbl where TargetImage like '%lsass.exe' and GrantedAcc
 ";
 
   $RemotePwdump="
-SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe';";
+SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe' and SourceImage not like '%System32%';";
   // lsass.exe에 CreateRemoteThread -> 강력한 의심 가능
-
-  $RemotePwdump2="
-SELECT * from network_connect_tbl where Image like '%dhwcj.exe;'";
-// myquery_RemotePwdump에서 찾은 Process(Random한 이름을 갖는 것으로 생각됨)가 어떻게 원격 연결을 수행하였는지 확인하는 쿼리
 
   $net="
 SELECT * from proc_create_tbl where Image like '%net1.exe' or Image like '%net.exe';";
@@ -494,7 +490,21 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $data[$x]=mysqli_fetch_array($query_pwdump7);
 }
-echo "<tr><td>pid</td><td>hostname</td><td>Time</td></tr>";
+echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
+for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
+$Image21[]=$data[$x][Image];
+$hname21[]=$data[$x][Hostname];
+$EventTime[]=$data[$x][EventTime];
+echo "<tr><td>$Image21[$x]</td><td>$hname21[$x]</td><td>$EventTime[$x]</td></tr>";
+}
+echo "</table>";
+
+echo "RemotePwdump";
+echo "<table border=1>";
+ 	for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
+$data[$x]=mysqli_fetch_array($query_pwdump7);
+}
+echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $Image21[]=$data[$x][Image];
 $hname21[]=$data[$x][Hostname];
