@@ -499,7 +499,7 @@ for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $Image21[]=$data[$x][Image;
 $hname21[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
-echo "<tr><td>$pid21[$x]</td><td>$hname21[$x]</td><td>$EventTime[$x]</td></tr>";
+echo "<tr><td>$Image21[$x]</td><td>$hname21[$x]</td><td>$EventTime[$x]</td></tr>";
 }
 echo "</table>";
 
