@@ -146,6 +146,7 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_winrs2=mysqli_query($server,$winrs2);
 	$query_wmiexecvbs=mysqli_query($server,$wmiexecvbs);
 	$query_pwdump7=mysqli_query($server,$PwDump7);
+	$query_remotepwdump=mysqli_query($server,$RemotePwdump);
 
  if ( ! $query ) {
         echo mysql_error();
@@ -501,11 +502,11 @@ echo "</table>";
 
 echo "RemotePwdump";
 echo "<table border=1>";
- 	for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
-$data[$x]=mysqli_fetch_array($query_pwdump7);
+ 	for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
+$data[$x]=mysqli_fetch_array($query_remotepwdump);
 }
 echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
-for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
+for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $Image21[]=$data[$x][Image];
 $hname21[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
