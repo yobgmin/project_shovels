@@ -495,8 +495,8 @@ echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $Image21[]=$data[$x][Image];
 $hname21[]=$data[$x][Hostname];
-$EventTime[]=$data[$x][EventTime];
-echo "<tr><td>$Image21[$x]</td><td>$hname21[$x]</td><td>$EventTime[$x]</td></tr>";
+$EventTime21[]=$data[$x][EventTime];
+echo "<tr><td>$Image21[$x]</td><td>$hname21[$x]</td><td>$EventTime21[$x]</td></tr>";
 }
 echo "</table>";
 
@@ -509,8 +509,8 @@ echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $Image22[]=$data[$x][SourceImage];
 $hname22[]=$data[$x][Hostname];
-$EventTime[]=$data[$x][EventTime];
-echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime[$x]</td></tr>";
+$EventTime22[]=$data[$x][EventTime];
+echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></tr>";
 }
 echo "</table>";
 
