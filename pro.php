@@ -504,7 +504,7 @@ echo "RemotePwdump";
 echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $data[$x]=mysqli_fetch_array($query_remotepwdump);
-echo $data;
+echo $data[0], $data[1], $data[2];
 }
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
