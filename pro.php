@@ -149,7 +149,7 @@ SELECT * from network_connect_tbl where SourcePort like 5985;";
 	$query_winrs3=mysqli_query($server,$winrs3);
 	$query_winrs2=mysqli_query($server,$winrs2);
 	$query_wmiexecvbs=mysqli_query($server,$wmiexecvbs);
-	$query_pwdump7=mysqli_query($server,$Pwdump7);
+	$query_pwdump7=mysqli_query($server,$PwDump7);
 
  if ( ! $query ) {
         echo mysql_error();
