@@ -505,9 +505,9 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $data[$x]=mysqli_fetch_array($query_remotepwdump);
 }
-echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
+echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
-$Image22[]=$data[$x][Image];
+$Image22[]=$data[$x][SourceImage];
 $hname22[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
 echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime[$x]</td></tr>";
