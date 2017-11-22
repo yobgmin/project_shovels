@@ -507,7 +507,6 @@ for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 }
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
-	echo "SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';";
 	$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
 	$Temp[$x]=mysqli_fetch_array($query_remotetime);
 if(strpos($Temp[$x][Image],"lsass.exe")==True) {
@@ -529,10 +528,10 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
 	$EventTime[]=$data[$x][EventTime];
 	echo $EventTime[$x];
-	echo "SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';";
 }
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
+	echo "SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';";
 	$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';");
 	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
 		$Temp[$y]=mysqli_fetch_array($query_remoteproc);
