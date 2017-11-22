@@ -513,11 +513,11 @@ $yongmin[$x]=mysqli_fetch_array($query_remotetime);
 if($yongmin) {
 	$EventTime222=$yongmin[$x][EventTime];
 	$Image222[]=$yongmin[$x][Image];
-	echo "<tr><td>ddd</td><td>$Image222[$x]</td><td>$data[$x][EventTime]</td></tr>";
+	$EventTime22[]=$data[$x][EventTime];
+	echo "<tr><td>ddd</td><td>$Image222[$x]</td><td>$EventTime22[$x]</td></tr>";
 }
 $Image22[]=$data[$x][SourceImage];
 $hname22[]=$data[$x][Hostname];
-$EventTime22[]=$data[$x][EventTime];
 echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></tr>";
 }
 echo "</table>";
