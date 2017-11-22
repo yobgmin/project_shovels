@@ -455,7 +455,7 @@ $EventTime[]=$data[$x][EventTime];
 echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td><td>$EventTime[$x]</td></tr>";
 }
 echo "</table>";
-
+/*
 echo "winrs_network2";
 echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
@@ -469,7 +469,7 @@ $hname20[]=$data[$x][Hostname];
 $EventTime[]=$data[$x][EventTime];
 echo "<tr><td>$pid20[$x]</td><td>$msg20[$x]</td><td>$hname20[$x]</td><td>$EventTime[$x]</td></tr>";
 }
-echo "</table>";
+echo "</table>";*/
 
 echo "wmiexecvbs";
 echo "<table border=1>";
