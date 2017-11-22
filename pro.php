@@ -526,9 +526,9 @@ echo "5985 Port Connection";
 echo "<table border=1>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
-	echo (string)$data[$x][SourceIP];
 }
-echo $data[0][EventTime];
+
+echo mysqli_field_count($query_winrs3);
 
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
