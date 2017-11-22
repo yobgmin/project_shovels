@@ -511,11 +511,12 @@ for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $Temp[$x]=mysqli_fetch_array($query_remotetime);
 if(strpos($Temp[$x][Image],"lsass.exe")==True) {
 	$Image222[$x]=$Temp[$x][Image];
-	$EventTime22[$x]=$Temp[$x][EventTime];
-	echo "<tr><td>RemotePwdump</td><td>$Image222[$x]</td><td>$EventTime22[$x]</td></tr>";
+	$EventTime222[$x]=$Temp[$x][EventTime];
+	echo "<tr><td>RemotePwdump</td><td>$Image222[$x]</td><td>$EventTime222[$x]</td></tr>";
 }
 $Image22[]=$data[$x][SourceImage];
 $hname22[]=$data[$x][Hostname];
+$EventTime22[]=$data[$x][EventTime];
 echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></tr>";
 }
 echo "</table>";
