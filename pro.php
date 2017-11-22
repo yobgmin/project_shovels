@@ -544,9 +544,9 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 		$EventTime232[]=$Temp[$y][EventTime];
 		echo "<tr><td>$Image232[$y]</td><td>$ParentImage232[$y]</td><td>$hname232[$y]</td><td>$EventTime232[$y]</td></tr>";
 	}*/
-	$Image23[]=$data[$x][SourceImage];
+	$Image23[]=$data[$x][Image];
 	$SourceIP23[]=$data[$x][SourceIP];
-	$EvntTime23[]=$data[$x][EventTime];
+	$EventTime23[]=$data[$x][EventTime];
 	$DestinationIP23[]=$data[$x][DestinationIP];
 	echo "<tr><td>$Image23[$x]</td><td>$EventTime23[$x]</td><td>$SourceIP23[$x]</td><td>$DestinationIP23[$x]</td></tr>";
 }
