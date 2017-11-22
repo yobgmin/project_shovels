@@ -528,10 +528,10 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 }
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
-$Image22[]=$data[$x][Image];
-$hname22[]=$data[$x][Hostname];
-$EventTime22[]=$data[$x][EventTime];
-echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></tr>";
+$Image25[]=$data[$x][Image];
+$hname25[]=$data[$x][Hostname];
+$EventTime25[]=$data[$x][EventTime];
+echo "<tr><td>$Image25[$x]</td><td>$hname25[$x]</td><td>$EventTime25[$x]</td></tr>";
 }
 echo "</table>";
 
