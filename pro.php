@@ -527,7 +527,11 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
 }
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
-echo "SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';";
+echo "SELECT * from proc_create_tbl where EventTime like '".$data[0][EventTime]."';\n";
+echo "SELECT * from proc_create_tbl where EventTime like '".$data[1][EventTime]."';\n";
+echo "SELECT * from proc_create_tbl where EventTime like '".$data[2][EventTime]."';\n";
+echo "SELECT * from proc_create_tbl where EventTime like '".$data[3][EventTime]."';\n";
+echo "SELECT * from proc_create_tbl where EventTime like '".$data[4][EventTime]."';\n";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';");
 	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
