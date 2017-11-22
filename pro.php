@@ -71,7 +71,7 @@ SELECT * from proc_access_tbl where TargetImage like '%lsass.exe' and GrantedAcc
 // Mimikatz - sekursla::logonpasswords
 
   $PwDump7="
- SELECT Image from raw_access_read_tbl where Image not like '%System32%' and Image not like 'System' and Image not like '%TrustedInstaller.exe' and Image not like '%Everything.exe';
+ SELECT * from raw_access_read_tbl where Image not like '%System32%' and Image not like 'System' and Image not like '%TrustedInstaller.exe' and Image not like '%Everything.exe';
 ";
 
   $RemotePwdump="
@@ -491,7 +491,7 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $data[$x]=mysqli_fetch_array($query_pwdump7);
 }
-echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
+echo "<tr><td>Image</td><td>msg</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $Image21[]=$data[$x][Image];
 $msg21[]=$data[$x][msg];
