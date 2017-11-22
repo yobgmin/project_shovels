@@ -534,10 +534,10 @@ for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 		$Temp[$y]=mysqli_fetch_array($query_remoteproc);
 	}
 	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++) {
-		$Image232[$y]=$Temp[$y][Image];
-		$ParentImage232[$y]=$Temp[$y][ParentImage];
-		$hname232[$y]=$Temp[$y][Hostname];
-		$EventTime232[$y]=$Temp[$y][EventTime];
+		$Image232[]=$Temp[$y][Image];
+		$ParentImage232[]=$Temp[$y][ParentImage];
+		$hname232[]=$Temp[$y][Hostname];
+		$EventTime232[]=$Temp[$y][EventTime];
 		echo "<tr><td>$Image232[$y]</td><td>$ParentImage232[$y]</td><td>$hname232[$y]</td><td>$EventTime232[$y]</td></tr>";
 	}
 	$Image23[]=$data[$x][SourceImage];
