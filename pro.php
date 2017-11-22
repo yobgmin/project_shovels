@@ -521,16 +521,14 @@ echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></t
 }
 echo "</table>";
 
+
 echo "5985 Port Connection";
 echo "<table border=1>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
-}
-echo $data[0][EventTime];
-
-for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	echo "SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';\r\n";
 }
+echo $data[0][EventTime];
 
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
@@ -552,6 +550,7 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	echo "<tr><td>$Image23[$x]</td><td>$EventTime23[$x]</td><td>$SourceIP23[$x]</td><td>$DestinationIP23[$x]</td></tr>";
 }
 echo "</table>";
+
 
     mysqli_close($server); 
 ?>
