@@ -512,8 +512,8 @@ for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $yongmin[$x]=mysqli_fetch_array($query_remotetime);
 if($yongmin[$x][Image]) {
 	$Image222[$x]=$yongmin[$x][Image];
-	$EventTime22[$x]=$data[$x][EventTime];
-	echo "<tr><td>ddd</td><td>$Image222[$x]</td><td>$EventTime22[$x]</td></tr>";
+	$EventTime22[$x]=$yongmin[$x][EventTime];
+	echo "<tr><td>RemotePwdump</td><td>$Image222[$x]</td><td>$EventTime22[$x]</td></tr>";
 }
 $Image22[]=$data[$x][SourceImage];
 $hname22[]=$data[$x][Hostname];
