@@ -526,7 +526,7 @@ echo "5985 Port Connection";
 echo "<table border=1>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
-	echo $data[$x];
+	echo mysqli_num_rows($query_winrs3);
 }
 echo $data[0][EventTime];
 
