@@ -507,6 +507,7 @@ for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 }
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
+	echo "SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';";
 	$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
 	$Temp[$x]=mysqli_fetch_array($query_remotetime);
 if(strpos($Temp[$x][Image],"lsass.exe")==True) {
