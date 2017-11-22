@@ -494,9 +494,9 @@ $data[$x]=mysqli_fetch_array($query_pwdump7);
 echo "<tr><td>Image</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_pwdump7);$x++){
 $Image21[]=$data[$x][Image];
-$hname21[]=$data[$x][Hostname];
+$msg21[]=$data[$x][msg];
 $EventTime21[]=$data[$x][EventTime];
-echo "<tr><td>$Image21[$x]</td><td>$hname21[$x]</td><td>$EventTime21[$x]</td></tr>";
+echo "<tr><td>$Image21[$x]</td><td>$msg21[$x]</td><td>$EventTime21[$x]</td></tr>";
 }
 echo "</table>";
 
