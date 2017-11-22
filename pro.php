@@ -533,6 +533,7 @@ echo mysqli_field_count($query_winrs3);
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$EventTime23[]=$data[$x][EventTime];
+	echo "SELECT * from proc_create_tbl where EventTime like '".$EventTime23[$x]."';";
 	$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".$EventTime23[$x]."';");
 	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
 		$Temp[$y]=mysqli_fetch_array($query_remoteproc);
