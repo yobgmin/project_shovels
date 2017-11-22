@@ -505,12 +505,11 @@ echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 $data[$x]=mysqli_fetch_array($query_remotepwdump);
 }
-//echo $data[0][EventTime], "SELECT * from pipe_created_tbl where EventTime like '".$data[1][EventTime]."';";
 echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 		$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
-$yongmin[$x]=mysqli_fetch_array($query_remotetime);
-if(strpos($yongmin[$x][Image],"lsass.exe")==True) {
+$Temp[$x]=mysqli_fetch_array($query_remotetime);
+if(strpos($Temp[$x][Image],"lsass.exe")==True) {
 	$Image222[$x]=$yongmin[$x][Image];
 	$EventTime22[$x]=$yongmin[$x][EventTime];
 	echo "<tr><td>RemotePwdump</td><td>$Image222[$x]</td><td>$EventTime22[$x]</td></tr>";
