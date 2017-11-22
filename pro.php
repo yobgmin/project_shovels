@@ -480,9 +480,9 @@ echo "<tr><td>pid</td><td>hostname</td><td>Time</td><td>commandline</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_wmiexecvbs);$x++){
 $pid20[]=$data[$x][ProcessID];
 $hname20[]=$data[$x][Hostname];
-$EventTime[]=$data[$x][EventTime];
+$EventTime20[]=$data[$x][EventTime];
 $CommandLine[]=$data[$x][CommandLine];
-echo "<tr><td>$pid20[$x]</td><td>$hname20[$x]</td><td>$EventTime[$x]</td><td>$CommandLine[$x]</td></tr>";
+echo "<tr><td>$pid20[$x]</td><td>$hname20[$x]</td><td>$EventTime20[$x]</td><td>$CommandLine[$x]</td></tr>";
 }
 echo "</table>";
 
@@ -510,7 +510,7 @@ echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 		$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
 $yongmin[$x]=mysqli_fetch_array($query_remotetime);
-if($yongmin[$x][Image]) {
+if(strpos($yongmin[$x][Image],"lsass.exe")==True) {
 	$Image222[$x]=$yongmin[$x][Image];
 	$EventTime22[$x]=$yongmin[$x][EventTime];
 	echo "<tr><td>RemotePwdump</td><td>$Image222[$x]</td><td>$EventTime22[$x]</td></tr>";
