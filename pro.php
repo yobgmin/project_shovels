@@ -521,6 +521,7 @@ echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></t
 }
 echo "</table>";
 
+/*
 echo "5985 Port Connection";
 echo "<table border=1>";
  	for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
@@ -545,7 +546,7 @@ $SourceIP23[]=$data[$x][SourceIP];
 $DestinationIP23[]=$data[$x][DestinationIP];
 echo "<tr><td>$Image23[$x]</td><td>$EventTime23[$x]</td><td>$SourceIP23[$x]</td><td>$DestinationIP23[$x]</td></tr>";
 }
-echo "</table>";
+echo "</table>";*/
 
     mysqli_close($server); 
 ?>
