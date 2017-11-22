@@ -510,7 +510,7 @@ echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
 		$query_remotetime=mysqli_query($server,"SELECT * from pipe_created_tbl where EventTime like '".$data[$x][EventTime]."';");
 $yongmin[$x]=mysqli_fetch_array($query_remotetime);
-if($yongmin[Image]) {
+if($yongmin[$x][Image]) {
 	$EventTime222=$yongmin[$x][EventTime];
 	$Image222[]=$yongmin[$x][Image];
 	$EventTime22[]=$data[$x][EventTime];
