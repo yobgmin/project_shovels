@@ -523,27 +523,28 @@ echo "</table>";
 
 echo "5985 Port Connection";
 echo "<table border=1>";
- 	for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
-$data[$x]=mysqli_fetch_array($query_winrs3);
+for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
+	$data[$x]=mysqli_fetch_array($query_winrs3);
 }
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
+echo "SELECT * from proc_create_tbl where EventTime like '".$data[0][EventTime]."';"
 for($x=0;$x<mysqli_num_rows($query_remotepwdump);$x++){
-$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';");
-for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
-	$Temp[$y]=mysqli_fetch_array($query_remoteproc);
-}
-for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++) {
-	$Image232[$y]=$Temp[$y][Image];
-	$ParentImage232[$y]=$Temp[$y][ParentImage];
-	$hname232[$y]=$Temp[$y][Hostname];
-	$EventTime232[$y]=$Temp[$y][EventTime];
-	echo "<tr><td>$Image232[$y]</td><td>$ParentImage232[$y]</td><td>$hname232[$y]</td><td>$EventTime232[$y]</td></tr>";
-}
-$Image23[]=$data[$x][SourceImage];
-$EventTime23[]=$data[$x][EventTime];
-$SourceIP23[]=$data[$x][SourceIP];
-$DestinationIP23[]=$data[$x][DestinationIP];
-echo "<tr><td>$Image23[$x]</td><td>$EventTime23[$x]</td><td>$SourceIP23[$x]</td><td>$DestinationIP23[$x]</td></tr>";
+	$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';");
+	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
+		$Temp[$y]=mysqli_fetch_array($query_remoteproc);
+	}
+	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++) {
+		$Image232[$y]=$Temp[$y][Image];
+		$ParentImage232[$y]=$Temp[$y][ParentImage];
+		$hname232[$y]=$Temp[$y][Hostname];
+		$EventTime232[$y]=$Temp[$y][EventTime];
+		echo "<tr><td>$Image232[$y]</td><td>$ParentImage232[$y]</td><td>$hname232[$y]</td><td>$EventTime232[$y]</td></tr>";
+	}
+	$Image23[]=$data[$x][SourceImage];
+	$EventTime23[]=$data[$x][EventTime];
+	$SourceIP23[]=$data[$x][SourceIP];
+	$DestinationIP23[]=$data[$x][DestinationIP];
+	echo "<tr><td>$Image23[$x]</td><td>$EventTime23[$x]</td><td>$SourceIP23[$x]</td><td>$DestinationIP23[$x]</td></tr>";
 }
 echo "</table>";
 
