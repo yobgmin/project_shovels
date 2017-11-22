@@ -526,9 +526,10 @@ echo "<table border=1>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
 }
+echo $data[0][EventTime];
 
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
-	echo "SELECT * from proc_create_tbl where EventTime like '".(string)$data[$x][Image]."';\r\n";
+	echo "SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';\r\n";
 }
 
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
