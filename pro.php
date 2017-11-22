@@ -526,8 +526,7 @@ echo "5985 Port Connection";
 echo "<table border=1>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
-	$str="SELECT * from proc_create_tbl where EventTime like '".$data[$x][EventTime]."';";
-	echo $str;
+	echo $data[$x][EventTime];
 }
 echo $data[0][EventTime];
 
