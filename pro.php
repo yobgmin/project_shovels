@@ -528,7 +528,7 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	$data[$x]=mysqli_fetch_array($query_winrs3);
 	$EventTime[]=$data[$x][EventTime];
 	echo $EventTime[$x];
-	echo "SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime23[$x]."';";
+	echo "SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';";
 }
 
 echo mysqli_field_count($query_winrs3);
