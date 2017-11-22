@@ -455,6 +455,7 @@ $EventTime[]=$data[$x][EventTime];
 echo "<tr><td>$pid19[$x]</td><td>$msg19[$x]</td><td>$hname19[$x]</td><td>$EventTime[$x]</td></tr>";
 }
 echo "</table>";
+
 /*
 echo "winrs_network2";
 echo "<table border=1>";
@@ -521,20 +522,6 @@ echo "<tr><td>$Image22[$x]</td><td>$hname22[$x]</td><td>$EventTime22[$x]</td></t
 }
 echo "</table>";
 
-echo "5985 Port Connection(temp)";
-echo "<table border=1>";
-for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
-	$data[$x]=mysqli_fetch_array($query_winrs3);
-}
-echo "<tr><td>SourceImage</td><td>hostname</td><td>Time</td></tr>";
-for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
-$Image25[]=$data[$x][Image];
-$hname25[]=$data[$x][Hostname];
-$EventTime25[]=$data[$x][EventTime];
-echo "<tr><td>$Image25[$x]</td><td>$hname25[$x]</td><td>$EventTime25[$x]</td></tr>";
-}
-echo "</table>";
-
 
 echo "5985 Port Connection";
 echo "<table border=1>";
@@ -546,8 +533,7 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 echo "<tr><td>Image</td><td>SourceIP</td><td>DestinationIP</td><td>EventTime</td></tr>";
 for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 	//echo "SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';";
-	//$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';");
-	/*
+	$query_remoteproc=mysqli_query($server,"SELECT * from proc_create_tbl where EventTime like '".(string)$EventTime[$x]."';");
 	for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
 		$Temp[$y]=mysqli_fetch_array($query_remoteproc);
 	}
@@ -557,7 +543,7 @@ for($x=0;$x<mysqli_num_rows($query_winrs3);$x++){
 		$hname232[]=$Temp[$y][Hostname];
 		$EventTime232[]=$Temp[$y][EventTime];
 		echo "<tr><td>$Image232[$y]</td><td>$ParentImage232[$y]</td><td>$hname232[$y]</td><td>$EventTime232[$y]</td></tr>";
-	}*/
+	}
 	$Image23[]=$data[$x][Image];
 	$SourceIP23[]=$data[$x][SourceIp];
 	$EventTime23[]=$data[$x][EventTime];
