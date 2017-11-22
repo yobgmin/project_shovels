@@ -532,7 +532,7 @@ $query_remoteproc=mysqli_query($server,"SELECT * from proc_created_tbl where Eve
 for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++){
 	$Temp[$y]=mysqli_fetch_array($query_remoteproc);
 }
-if($y=0;$y<mysqli_num_rows($query_remoteproc);$y++) {
+for($y=0;$y<mysqli_num_rows($query_remoteproc);$y++) {
 	$Image232[$y]=$Temp[$y][Image];
 	$ParentImage232[$y]=$Temp[$y][ParentImage];
 	$hname232[$y]=$Temp[$y][Hostname];
