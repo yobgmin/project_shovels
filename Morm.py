@@ -333,7 +333,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 """
 
   $RemotePwdump="SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe' and SourceImage not like '%System32%';";
-  // lsass.exe에 CreateRemoteThread ->
+  // lsass.exe CreateRemoteThread ->
   $net="SELECT * from proc_create_tbl where Image like '%net1.exe' or Image like '%net.exe';";
 
   $netuser="SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\lsass';";
