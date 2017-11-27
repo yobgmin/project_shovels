@@ -330,6 +330,9 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "RemotePwdump, wce", i.ProcessID, i.SourceImage, i,TargetImage, i.EventTime, i.Hostname
+
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
+	print "net1.exe, net.exe", i.ProcessID, i.Image, i.EventTime, i.Hostname, i.CommandLine
 """
 
   $RemotePwdump="SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe' and SourceImage not like '%System32%';";
