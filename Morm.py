@@ -358,6 +358,9 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WinrsHost.exe')).f
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
+for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')).filter(network_connect_tbl.SourcePort.like(5985):
+	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
+
 """
 // 
   
