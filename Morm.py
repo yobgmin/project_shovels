@@ -45,7 +45,7 @@ class proc_tbl(Base):
 	def __repr__(self):
 		pass
 
-class change_createtime_tbl:
+class change_createtime_tbl(Base):
 	__tablename__='change_createtime_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -72,7 +72,7 @@ class change_createtime_tbl:
 	def __repr__(self):
 		pass
 
-class file_create_tbl:
+class file_create_tbl(Base):
 	__tablename__='file_create_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -98,7 +98,7 @@ class file_create_tbl:
 	def __repr__(self):
 		pass
 
-class image_loaded_tbl:
+class image_loaded_tbl(Base):
 	__tablename__='image_loaded_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -127,7 +127,7 @@ class image_loaded_tbl:
 	def __repr__(self):
 		pass
 
-class network_connect_tbl:
+class network_connect_tbl(Base):
 	__tablename__='network_connect_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -163,7 +163,7 @@ class network_connect_tbl:
 	def __repr__(self):
 		pass
 
-class pipe_tbl:
+class pipe_tbl(Base):
 	__tablename__='pipe_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -188,7 +188,7 @@ class pipe_tbl:
 	def __repr__(self):
 		pass
 
-class proc_access_tbl:
+class proc_access_tbl(Base):
 	__tablename__='proc_access_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -224,7 +224,7 @@ class proc_access_tbl:
 	def __repr__(self):
 		pass
 
-class raw_access_read_tbl:
+class raw_access_read_tbl(Base):
 	__tablename__='raw_access_read_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -249,7 +249,7 @@ class raw_access_read_tbl:
 	def __repr__(self):
 		pass
 
-class reg_tbl:
+class reg_tbl(Base):
 	__tablename__='reg_tbl'
 	idx=Column(types.Integer,primary_key=True)
 	EventTime=Column(types.DateTime)
@@ -279,6 +279,12 @@ class reg_tbl:
 def whatgidex(guid):
 	for ii in session.query(result_tbl).filter(result_tbl.ProcessGuid==guid):
 		return ii.Gidex
+
+def Upper(guid):
+	for i in session.query(proc_tbl).filter(proc_tbl.ProcessGuid==guid).filter(proc_tbl.EventID=='1'):
+		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid
+
+
 class result_tbl:
 	idx=0
 	gidex=0
@@ -292,14 +298,20 @@ class result_tbl:
 
 Intell1=[]
 Intell1_Guid=[]
+Intell1_PImage=[]
+Intell1_PGuid=[]
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')):
 	Intell1_Guid.append(i.ProcessGuid)#create object
 	Intell1.append(i.Image)
+	Intell1_PImage.append(i.ParentImage)
+	Intell1_PGuid.append(i.ParentProcessGuid)
 	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
-print "Start Straw"
+	if(i.ParentImage.like('%cmd.exe')):
+		upper(i.ParentProcessGuid)
+print "Up 1"
 x=0
-for in1 in Intell1:
-	for i in session.query(proc_tbl).filter(proc_tbl.Image==in1).filter(proc_tbl.ProcessGuid==Intell1_Guid[x]).filter(proc_tbl.EventID=='1'):
+for in1 in Intell1_PImage:
+	for i in session.query(proc_tbl).filter(proc_tbl.Image==in1).filter(proc_tbl.ProcessGuid==Intell1_PGuid[x]).filter(proc_tbl.EventID=='1'):
 #		gid=whatgidx(i.ProcessGuid)
 		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid
 		#create object
@@ -312,10 +324,5 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 
-for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')):
-	Intell1_Guid.append(i.ProcessGuid)#create object
-	Intell1.append(i.Image)
-	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
-
-for i in session.query(file_create_tbl):
-	print i.EventTime
+for i in session.query(proc_access_tbl).filter(proc_access_tbl.GrantedAccess=='0x1010').filter(proc_access_tbl.TargetImage=='%lsass.exe').filter(proc_access_tbl.EventID=='10'):
+	print i.Image, i.EventTime, i.Hostname
