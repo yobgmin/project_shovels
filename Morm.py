@@ -328,10 +328,7 @@ for in1 in Intell1:
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
 
-for i in session.query(proc_access_tbl)
-.filter(proc_access_tbl.TargetImage.like('%lsass.exe'))
-.filter(~proc_access_tbl.SourceImage.like('%System32%'))
-.filter(proc_access_tbl.EventID.like('8')):
+for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "RemotePwdump, wce", i.ProcessID, i.SourceImage, i,TargetImage, i.EventTime, i.Hostname
 """
 
