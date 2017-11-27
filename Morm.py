@@ -333,8 +333,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 """
 
   $RemotePwdump="SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe' and SourceImage not like '%System32%';";
-  // lsass.exe에 CreateRemoteThread -> 강력한 의심 가능
-
+  // lsass.exe에 CreateRemoteThread ->
   $net="SELECT * from proc_create_tbl where Image like '%net1.exe' or Image like '%net.exe';";
 
   $netuser="SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\lsass';";
@@ -344,16 +343,16 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
   $netuse="SELECT * from pipe_connected_tbl where Image like '%net.exe' and PipeName like '%\wkssvc';";
 
   $netuse2="SELECT * from network_connect_tbl where Image like '%net.exe';";
-// 어떤 netuse명령이었는지 추적할 수 있는 쿼리
+// 
   
   $wmic="SELECT * from proc_create_tbl where ParentImage like '%WmiPrvSE.exe';";
-// Explorer.exe 등이 아닌 WmiPrvSE.exe가 프로세스 실행 -> 원격 실행 의심 가능
+/
 
   $wmic2="SELECT * from network_connect_tbl  where Image like '%wmic.exe';";
-// 실제 원격 연결 여부 확인
+// 
 
   $wmiexecvbs="SELECT * from proc_create_tbl where ParentImage like '%WScript.exe';";
-// net use 명령어가 실행되었을 경우($myquery_netuse) 그것이 wmiexec.vbs에 의한 실행인지 파악할 수 있는 쿼리
+//
 
   $winrs="SELECT * from proc_create_tbl where ParentImage like '%WinrsHost.exe';";
 
