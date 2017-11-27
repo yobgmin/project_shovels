@@ -351,6 +351,13 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmiexec.vbs", i.Image, i.EventTime, i.Hostname, i.CommandLine
+
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WinrsHost.exe')).filter(proc_tbl.EventID.like('1')):
+	print "winrs - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
+
+for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')):
+	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
+
 """
 // 
   
