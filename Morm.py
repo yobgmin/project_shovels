@@ -342,19 +342,16 @@ for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\wkssvc')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net use", i.Image, i.EventTime, i.Hostname
+
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
+	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
+
+for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
+	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIP, i.DestinationIP
+
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).filter(proc_tbl.EventID.like('1')):
+	print "wmiexec.vbs", i.Image, i.EventTime, i.Hostname, i.CommandLine
 """
-
-  $RemotePwdump="SELECT * from create_remote_thread_tbl where TargetImage like '%lsass.exe' and SourceImage not like '%System32%';";
-  // lsass.exe CreateRemoteThread ->
-  $net="SELECT * from proc_create_tbl where Image like '%net1.exe' or Image like '%net.exe';";
-
-  $netuser="SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\lsass';";
-
-  $netview="SELECT * from pipe_connected_tbl where Image like '%net1.exe' and PipeName like '%\browser';";
-
-  $netuse="SELECT * from pipe_connected_tbl where Image like '%net.exe' and PipeName like '%\wkssvc';";
-
-  $netuse2="SELECT * from network_connect_tbl where Image like '%net.exe';";
 // 
   
   $wmic="SELECT * from proc_create_tbl where ParentImage like '%WmiPrvSE.exe';";
