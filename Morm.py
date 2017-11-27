@@ -317,5 +317,5 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	Intell1.append(i.Image)
 	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 
-for i in session.query(raw_access_read_tbl).filter(raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
+for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%Everything.exe')).filter(~network_connect_tbl.Image.like('%System32%')).filter(~network_connect_tbl.Image.like('System')).filter(~network_connect_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.Image, i.EventTime, i.Hostname
