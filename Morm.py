@@ -324,5 +324,5 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 
-for i in session.query(proc_access_tbl).filter(proc_access_tbl.GrantedAccess=='0x1010').filter(proc_access_tbl.TargetImage=='%lsass.exe').filter(proc_access_tbl.EventID=='10'):
+for i in session.query(raw_access_read_tbl).filter(raw_access_read_tbl.like('%Everything.exe')).filter(raw_access_read_tbl.like('System')).filter(raw_access_read_tbl.like('%System32%')).filter(raw_access_read_tbl.like('%TrustedInstaller.exe')):
 	print i.Image, i.EventTime, i.Hostname
