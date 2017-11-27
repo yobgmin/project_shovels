@@ -306,7 +306,6 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	Intell1_PImage.append(i.ParentImage)
 	Intell1_PGuid.append(i.ParentProcessGuid)
 	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
-	print type(i.ParentImage)
 	if(i.ParentImage is '%cmd.exe'):
 		upper(i.ParentProcessGuid)
 print "Up 1"
