@@ -312,5 +312,10 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')):
+	Intell1_Guid.append(i.ProcessGuid)#create object
+	Intell1.append(i.Image)
+	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
+
 for i in session.query(raw_access_read_tbl).filter(raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.Image, i.EventTime, i.Hostname
