@@ -317,5 +317,5 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	Intell1.append(i.Image)
 	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 
-for i in session.query(network_connect_tbl):
-	print i.Image, i.EventTime, i.Hostname
+for i in session.query(proc_access_tbl):
+	print i.EventTime
