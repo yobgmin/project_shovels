@@ -326,4 +326,4 @@ for in1 in Intell1:
 #	print i.ProcessID,i.Image
 
 for i in session.query(raw_access_read_tbl).filter(raw_access_read_tbl.Image.like('%Everything.exe')).filter(raw_access_read_tbl.Image.like('System')).filter(raw_access_read_tbl.Image.like('%System32%')).filter(raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
-	print i.Image, i.EventTime, i.Hostname
+	print i.ProcessID, i.Image, i.EventTime, i.Hostname
