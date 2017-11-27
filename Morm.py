@@ -347,7 +347,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).fi
 	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
-	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIP, i.DestinationIP
+	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmiexec.vbs", i.Image, i.EventTime, i.Hostname, i.CommandLine
