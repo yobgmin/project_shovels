@@ -327,7 +327,7 @@ for in1 in Intell1:
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 	for j in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+i.TargetFilename.split('\\')[-1])).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
-		print "Execution After Copy", j.ParentProcessId, j.Image, j.EventTjme, j.Hostname, j.CommandLine
+		print "Execution After Copy", j.ParentProcessId, j.Image, j.EventTime, j.Hostname, j.CommandLine
 		for k in session.query(network_connect_tbl).filter(network_connect_tbl.ParentProcessId.like(j.ParentProcessId)).filter(network_connect_tbl.EventTime.like(i.EventTime)):
 			print "ParentImage Network", k.Image, k.EventTime, k.Hostname, k.SourceIp, k.DestinationIp
 """
