@@ -326,9 +326,8 @@ for in1 in Intell1:
 
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
-	targetimage=i.TargetFilename.split('\\')[-1]
-	for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+targetimage)).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
-		print "Execution After Copy", i.Image, i.EventTime, i.Hostname, i.CommandLine
+	for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+i.TargetFilename.split('\\')[-1])).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
+		print "Execution After Copy", i.ParentImage, i.Image, i.EventTime, i.Hostname, i.CommandLine
 """
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
@@ -337,10 +336,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 	print "RemotePwdump, wce", i.ProcessID, i.SourceImage, i,TargetImage, i.EventTime, i.Hostname
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
-	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
-
-for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\lsass')).filter(pipe_tbl.EventID.like('18')):
-	print "net1.exe - net user", i.Image, i.EventTime, i.Hostname
+	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine'%'+i.TargetFilename.split('\\')[-1]
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net view", i.Image, i.EventTime, i.Hostname
