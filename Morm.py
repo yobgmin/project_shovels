@@ -327,7 +327,7 @@ for in1 in Intell1:
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 	targetimage=i.TargetFilename.split('\\')[-1]
-	for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+targetimage)).filter(proc_tbl.EventID.like('1')):
+	for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+targetimage)).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
 		print "Execution After Copy", i.Image, i.EventTime, i.Hostname, i.CommandLine
 
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
