@@ -329,7 +329,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	targetimage=i.TargetFilename.split('\\')[-1]
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+targetimage)).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
 		print "Execution After Copy", i.Image, i.EventTime, i.Hostname, i.CommandLine
-
+"""
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
 
@@ -367,20 +367,3 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
 """
-// 
-  
-  $wmic="SELECT * from proc_create_tbl where ParentImage like '%WmiPrvSE.exe';";
-/
-
-  $wmic2="SELECT * from network_connect_tbl  where Image like '%wmic.exe';";
-// 
-
-  $wmiexecvbs="SELECT * from proc_create_tbl where ParentImage like '%WScript.exe';";
-//
-
-  $winrs="SELECT * from proc_create_tbl where ParentImage like '%WinrsHost.exe';";
-
-  $winrs2="SELECT * from network_connect_tbl where Image like '%winrs.exe';";
-
-  $winrs3="SELECT * from network_connect_tbl where SourcePort like 5985;";
-  """
