@@ -330,7 +330,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 		print "Execution After Copy", j.ParentProcessId, j.Image, j.EventTime, j.Hostname, j.CommandLine
 		for k in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(i.EventTime)):
 			print "ParentImage Network", k.Image, k.EventTime, k.Hostname, k.DestinationHostname
-		print k
+		print (str)k
 		for p in session.query(proc_tbl).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
 			print "Execution from Host", p.ParentProcessId, p.Image, p.EventTime, p.Hostname, p.CommandLine
 """
