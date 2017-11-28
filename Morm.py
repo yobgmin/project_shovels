@@ -324,6 +324,9 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 
+for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')):
+	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
+
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
 
@@ -344,8 +347,6 @@ for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(i.Image)).filter(network_connect_tbl.EventID.like('3')):
-		print "wmic Connection", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
