@@ -336,7 +336,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\lsass')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net user", i.Image, i.EventTime, i.Hostname
 
-for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\\browser')).filter(pipe_tbl.EventID.like('18')):
+for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net view", i.Image, i.EventTime, i.Hostname
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\wkssvc')).filter(pipe_tbl.EventID.like('18')):
@@ -344,6 +344,8 @@ for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(i.Image)).filter(network_connect_tbl.EventID.like('3')):
+		print "wmic Connection", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
