@@ -328,8 +328,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 	for j in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+i.TargetFilename.split('\\')[-1])).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
 		print "Execution After Copy", j.ParentProcessId, j.Image, j.EventTime, j.Hostname, j.CommandLine
-		for k in session.query(network_connect_tbl).filter(network_connect_tbl.ProcessID.like(j.ParentProcessId)).filter(network_connect_tbl.EventTime.like(i.EventTime)):
-			print "ParentImage Network", k.Image, k.EventTime, k.Hostname, k.SourceIp, k.DestinationIp
+		for k in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(i.EventTime)):
+			print "ParentImage Network", k.Image, k.EventTime, k.Hostname, k.DestinationHostname
 """
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
