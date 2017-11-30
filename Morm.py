@@ -323,7 +323,7 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 
-for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')):
+for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(file_create_tbl.Image.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 	for j in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+i.TargetFilename.split('\\')[-1])).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
 		print "Execution After Copy", j.ParentProcessId, j.Image, j.EventTime, j.Hostname, j.CommandLine
@@ -336,7 +336,7 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
 
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(proc_access_tbl.GrantedAccess.like('0x1010')).filter(proc_access_tbl.EventID.like('10')):
-	print "Mimikatz-logonpasswords", i.SourceImage, i,TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
+	print i.EventTime, i.GrantedAccess, i.Hostname
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
