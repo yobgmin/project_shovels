@@ -340,7 +340,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 	print "RemotePwdump, wce", i.ProcessID, i.SourceImage, i,TargetImage, i.EventTime, i.Hostname
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
-	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine'%'+i.TargetFilename.split('\\')[-1]
+	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine'%'
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net view", i.Image, i.EventTime, i.Hostname
