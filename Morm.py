@@ -337,6 +337,8 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(proc_access_tbl.GrantedAccess.like('0x1010')).filter(proc_access_tbl.EventID.like('10')):
 	print "Mimikatz - logonpasswords", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
+	for j in session.query(proc_tbl).filter(proc_tbl.Image.like(i.SourceImage)).filter(proc_tbl.ProcessID.like(i.SourceProcessId)).filter(proc_tbl.EventID=='1'):
+		print "Mimikatz's ParentImage", j.ParentImage, j.Image, i.EventTime, i.Hostname
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
