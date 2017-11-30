@@ -217,8 +217,7 @@ class proc_access_tbl(Base):
 	EventReceivedTime=Column(types.DateTime)
 	SourceModuleName=Column(types.String)
 	SourceModuleType=Column(types.String)
-	TargeImage=Column(types.String)
-
+	
 	def __init__(self):
 		pass
 	def __repr__(self):
