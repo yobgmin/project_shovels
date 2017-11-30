@@ -332,7 +332,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 			print "ParentImage Network", k.Image, k.EventTime, k.Hostname, k.DestinationHostname
 		for p in session.query(proc_tbl).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
 			print "Execution from Host", p.Image, p.EventTime, p.Hostname, p.CommandLine
-"""
+
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
 
@@ -366,4 +366,3 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')).filter(network_connect_tbl.SourcePort is 5985):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
-"""
