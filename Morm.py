@@ -347,9 +347,10 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	PrcList=[]
 	Img = i.Image
 	Pid = i.ProcessID
+	temp = findParent(Img, Pid)
 	
 	while temp is not None:
-		tmep = findParent(Img, Pid)
+		temp = findParent(Img, Pid)
 		Img = temp[0]
 		Pid = temp[1]
 	for prc in PrcList:
