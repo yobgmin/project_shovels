@@ -343,6 +343,21 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 	if(i.ParentImage is '%cmd.exe'):
 		upper(i.ParentProcessGuid)
+
+	PrcList=[]
+	Img = i.SourceImage
+	Pid = i.ProcessID
+	while Img is not None:
+		PrcList.append((Img, Pid))
+		temp = findParent(Img, Pid)
+		Img=temp[0]
+		Pid=temp[1]
+	for prc in PrcList:
+		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
+		if net_con[0]:
+			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
+				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]
+				
 print "Up 1"
 x=0
 for in1 in Intell1_PImage:
@@ -369,19 +384,7 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
-	PrcList=[]
-	Img = i.SourceImage
-	Pid = i.ProcessID
-	while Img is not None:
-		PrcList.append((Img, Pid))
-		temp = findParent(Img, Pid)
-		Img=temp[0]
-		Pid=temp[1]
-	for prc in PrcList:
-		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
-		if net_con[0]:
-			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
-				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]
+
 
 """	
 printLine()
