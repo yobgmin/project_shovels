@@ -295,6 +295,27 @@ class result_tbl:
 		self.tbl_number=tbl_n
 		self_tbl_idx=tbl_i
 
+def findParent(PrcImage, PrcId):
+	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
+		print "ParentImage : ", i.ParentImage
+		return i.ParentImage
+
+def findChildren(PrcImage, PrcId):
+	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
+		print "ChildImage : ", i. Image
+		return i.Image
+
+def network_connection(PrcImage, HstName):
+	for i in session.query(network_connection).filter(network_connection.Image.like(PrcImage)).filter(~network_connection.Hostname.like(HstName)):
+		print "Network Connection : ", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+
+def system_network_connection(EvtTime):
+	for i in session.query(network_connection).filter(network_connection.EventTime.like(EvtTime)).filter(network_connection.Image.like('System')):
+		print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+
+
 Intell1=[]
 Intell1_Guid=[]
 Intell1_PImage=[]
@@ -334,6 +355,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
+# not permitted RawAccessRead
 
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
