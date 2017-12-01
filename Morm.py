@@ -314,16 +314,16 @@ def findChildren(PrcImage, PrcId):
 def network_connection(PrcImage, PrcId, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(~network_connect_tbl.Hostname.like(HstName)).filter(proc_tbl.ProcessID.like(PrcId)):
 		if i.Image:
-			print "Network Connection : ", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return (i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
+			print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 		else:
 			return "NULL","NULL","NULL","NULL","NULL"
 
 def system_network_connection(EvtTime, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(~network_connect_tbl.Hostname.like(HstName)).filter(network_connect_tbl.Image.like('System')):
 		if i.Image:
-			print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return (i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
+			print "System Network Connect", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 		else:
 			return "NULL","NULL","NULL","NULL","NULL"
 
