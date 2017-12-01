@@ -374,7 +374,9 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 	Pid = i.ProcessID
 	while Img:
 		PrcList.append((Img, Pid))
-		Img, Pid = findParent(Img, Pid)
+		temp = findParent(Img, Pid)
+		Img = temp[0]
+		Pid = temp[1]
 	for prc in PrcList:
 		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
 		if net_con[0]:
