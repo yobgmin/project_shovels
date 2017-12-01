@@ -373,7 +373,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 	PrcList.append((i.SourceImage, i.ProcessID))
 	Img = i.SourceImage
 	Pid = i.ProcessID
-	while Img!=None:
+	while Img is not None:
 		PrcList.append((Img, Pid))
 		Img, Pid = findParent(Img, Pid)
 	for prc in PrcList:
