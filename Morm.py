@@ -345,7 +345,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		upper(i.ParentProcessGuid)
 
 	PrcList=[]
-	Img = i.SourceImage
+	Img = i.Image
 	Pid = i.ProcessID
 	while Img is not None:
 		PrcList.append((Img, Pid))
@@ -357,7 +357,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		if net_con[0]:
 			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
 				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]
-				
+
 print "Up 1"
 x=0
 for in1 in Intell1_PImage:
