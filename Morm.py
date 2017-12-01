@@ -348,7 +348,10 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	Img = i.Image
 	Pid = i.ProcessID
 	
-	print findParent(Img, Pid)
+	while temp is not None:
+		tmep = findParent(Img, Pid)
+		Img = temp[0]
+		Pid = temp[1]
 	for prc in PrcList:
 		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
 		if net_con[0]:
