@@ -299,7 +299,7 @@ def findParent(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
 		if i.ParentImage:
 			print "ParentImage : ", i.ParentImage
-			return i.ParentImage, i.ParentProcessId
+			return (i.ParentImage, i.ParentProcessId)
 		else:
 			return "NULL", "NULL"
 
@@ -307,7 +307,7 @@ def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
 		if i.Image:
 			print "ChildImage : ", i. Image
-			return i.Image, i.ProcessID
+			return (i.Image, i.ProcessID)
 		else:
 			return "NULL","NULL"
 
@@ -315,7 +315,7 @@ def network_connection(PrcImage, PrcId, HstName):
 	for i in session.query(network_connection).filter(network_connection.Image.like(PrcImage)).filter(~network_connection.Hostname.like(HstName)).filter(proc_tbl.ProcessID.like(PrcId)):
 		if i.Image:
 			print "Network Connection : ", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			return (i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 		else:
 			return "NULL","NULL","NULL","NULL","NULL"
 
@@ -323,7 +323,7 @@ def system_network_connection(EvtTime):
 	for i in session.query(network_connection).filter(network_connection.EventTime.like(EvtTime)).filter(~network_connection.Hostname.like(HstName)).filter(network_connection.Image.like('System')):
 		if i.Image:
 			print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			return (i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 		else:
 			return "NULL","NULL","NULL","NULL","NULL"
 
