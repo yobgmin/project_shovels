@@ -301,7 +301,7 @@ def findParent(PrcImage, PrcId):
 			print "ParentImage : ", i.ParentImage
 			return i.ParentImage, i.ParentProcessId
 		else:
-			return None, None
+			return "", ""
 
 def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
@@ -309,7 +309,7 @@ def findChildren(PrcImage, PrcId):
 			print "ChildImage : ", i. Image
 			return i.Image, i.ProcessID
 		else:
-			return None, None
+			return "",""
 
 def network_connection(PrcImage, PrcId, HstName):
 	for i in session.query(network_connection).filter(network_connection.Image.like(PrcImage)).filter(~network_connection.Hostname.like(HstName)).filter(proc_tbl.ProcessID.like(PrcId)):
@@ -317,7 +317,7 @@ def network_connection(PrcImage, PrcId, HstName):
 			print "Network Connection : ", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 			return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		else:
-			return None, None, None, None, None
+			return "", "", "", "", ""
 
 def system_network_connection(EvtTime):
 	for i in session.query(network_connection).filter(network_connection.EventTime.like(EvtTime)).filter(~network_connection.Hostname.like(HstName)).filter(network_connection.Image.like('System')):
@@ -325,7 +325,7 @@ def system_network_connection(EvtTime):
 			print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 			return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		else:
-			return None, None, None, None, None
+			return "", "", "", "", ""
 
 def printLine():
 	print "===================================================================================================="
@@ -373,7 +373,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 	PrcList.append((i.SourceImage, i.ProcessID))
 	Img = i.SourceImage
 	Pid = i.ProcessID
-	while Img is not None:
+	while Img:
 		PrcList.append((Img, Pid))
 		Img, Pid = findParent(Img, Pid)
 	for prc in PrcList:
