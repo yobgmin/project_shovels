@@ -369,6 +369,20 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
+	PrcList=[]
+	PrcList.append((i.SourceImage, i.ProcessID))
+	Img = i.SourceImage
+	Pid = i.ProcessID
+	while Img!=None:
+		PrcList.append((Img, Pid))
+		Img, Pid = findParent(Img, Pid)
+	for prc in PrcList:
+		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
+		if net_con[0]:
+			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
+				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]
+
+"""	
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(proc_access_tbl.GrantedAccess.like('0x1010')).filter(proc_access_tbl.EventID.like('10')):
 	print "Mimikatz - logonpasswords", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
@@ -415,4 +429,4 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')).filter(network_connect_tbl.SourcePort is 5985):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
-
+"""
