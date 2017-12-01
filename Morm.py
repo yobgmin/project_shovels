@@ -370,7 +370,6 @@ printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
 	PrcList=[]
-	PrcList.append((i.SourceImage, i.ProcessID))
 	Img = i.SourceImage
 	Pid = i.ProcessID
 	while Img:
