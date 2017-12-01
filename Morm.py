@@ -319,7 +319,7 @@ def network_connection(PrcImage, PrcId, HstName):
 		else:
 			return "NULL","NULL","NULL","NULL","NULL"
 
-def system_network_connection(EvtTime):
+def system_network_connection(EvtTime, HstName):
 	for i in session.query(network_connection).filter(network_connection.EventTime.like(EvtTime)).filter(~network_connection.Hostname.like(HstName)).filter(network_connection.Image.like('System')):
 		if i.Image:
 			print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
@@ -378,7 +378,7 @@ for in1 in Intell1:
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.Image.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
-	Hostname = system_network_connection(i.EventTime)
+	Hostname = system_network_connection(i.EventTime, i.Hostname)
 
 printLine()
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
