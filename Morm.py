@@ -378,6 +378,7 @@ for in1 in Intell1:
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.Image.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
+	Hstname = ""
 	HstName = system_network_connection(i.EventTime, i.Hostname)[1]
 	for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(Hstname)).filter(proc_tbl.EventTime.like(i.EventTime)):
 		print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
