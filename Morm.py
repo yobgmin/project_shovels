@@ -297,23 +297,38 @@ class result_tbl:
 
 def findParent(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
-		print "ParentImage : ", i.ParentImage
-		return i.ParentImage
+		if i.ParentImage:
+			print "ParentImage : ", i.ParentImage
+			return i.ParentImage, i.ParentProcessId
+		else:
+			return None, None
 
 def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
-		print "ChildImage : ", i. Image
-		return i.Image
+		if i.Image:
+			print "ChildImage : ", i. Image
+			return i.Image, i.ProcessID
+		else:
+			return None, None
 
-def network_connection(PrcImage, HstName):
-	for i in session.query(network_connection).filter(network_connection.Image.like(PrcImage)).filter(~network_connection.Hostname.like(HstName)):
-		print "Network Connection : ", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-		return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+def network_connection(PrcImage, PrcId, HstName):
+	for i in session.query(network_connection).filter(network_connection.Image.like(PrcImage)).filter(~network_connection.Hostname.like(HstName)).filter(proc_tbl.ProcessID.like(PrcId)):
+		if i.Image:
+			print "Network Connection : ", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		else:
+			return None, None, None, None, None
 
 def system_network_connection(EvtTime):
-	for i in session.query(network_connection).filter(network_connection.EventTime.like(EvtTime)).filter(network_connection.Image.like('System')):
-		print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-		return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+	for i in session.query(network_connection).filter(network_connection.EventTime.like(EvtTime)).filter(~network_connection.Hostname.like(HstName)).filter(network_connection.Image.like('System')):
+		if i.Image:
+			print "System Network Connect", i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			return i.EventTime, i.SourceHostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		else:
+			return None, None, None, None, None
+
+def printLine():
+	print "===================================================================================================="
 
 
 Intell1=[]
@@ -344,27 +359,33 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 
+printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(file_create_tbl.Image.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
-	for j in session.query(proc_tbl).filter(proc_tbl.Image.like('%'+i.TargetFilename.split('\\')[-1])).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
-		print "Execution After Copy", j.ParentProcessId, j.Image, j.EventTime, j.Hostname, j.CommandLine
-		for k in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(i.EventTime)):
-			print "ParentImage Network", k.Image, k.EventTime, k.Hostname, k.DestinationHostname
-		for p in session.query(proc_tbl).filter(proc_tbl.EventID.like('1')).filter(proc_tbl.EventTime.like(i.EventTime)):
-			print "Execution from Host", p.Image, p.EventTime, p.Hostname, p.CommandLine
-
+printLine()
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
 # not permitted RawAccessRead
-
+printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
-
+printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(proc_access_tbl.GrantedAccess.like('0x1010')).filter(proc_access_tbl.EventID.like('10')):
 	print "Mimikatz - logonpasswords", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
-	for j in session.query(proc_tbl).filter(proc_tbl.Image.like(i.SourceImage)).filter(proc_tbl.ProcessID.like(i.SourceProcessId)):
-		print "Mimikatz's ParentImage", j.ParentImage, j.Image, i.EventTime, i.Hostname
+	PrcList=[]
+	PrcList.append((i.SourceImage, i.ProcessID)
+	Img = i.SourceImage
+	Pid = i.ProcessID
+	while Img!=None:
+		PrcList.append((Img, Pid))
+		Img, Pid = findParent(Img, Pid)
+	for prc in PrcList:
+		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
+		if net_con[0]:
+			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
+				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]
 
+printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
 
@@ -374,15 +395,18 @@ for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\wkssvc')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net use", i.Image, i.EventTime, i.Hostname
 
+printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
 
+printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmiexec.vbs", i.Image, i.EventTime, i.Hostname, i.CommandLine
-
+	
+printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WinrsHost.exe')).filter(proc_tbl.EventID.like('1')):
 	print "winrs - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
 
