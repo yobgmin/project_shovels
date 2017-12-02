@@ -389,6 +389,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	print "***************",Img
 
 	if Img is not None:
+		print "Enter"
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname)
 
 	if HstName is not None:
