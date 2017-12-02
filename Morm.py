@@ -337,7 +337,7 @@ def printLine():
 	print "===================================================================================================="
 
 def host_process_create(EvtTime, HstName):
-	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))):
+	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
 
 """
