@@ -340,6 +340,10 @@ def host_process_create(EvtTime, HstName):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
 
 
+Intell1=[]
+Intell1_Guid=[]
+Intell1_PImage=[]
+Intell1_PGuid=[]
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')):
 	Intell1_Guid.append(i.ProcessGuid)#create object
 	Intell1.append(i.Image)
