@@ -353,7 +353,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	while 1:
 		print Img
 		Img = findParent_Image('%'+Img.split('\\')[-1], i.EventTime)
-		if Img is not None and Img is not i.Image:
+		if Img is not None and Img is not i.ParentImage:
 			PrcList.append(Img)
 		else:
 			break
