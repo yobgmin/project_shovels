@@ -379,7 +379,7 @@ printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 
-	HstName = system_network_connection(i.EventTime, i.ProcessID, i.Hostname)
+	HstName = system_network_connection('%'+i.TargetFilename.split('\\')[-1], i.ProcessID, i.Hostname)
 
 	if HstName is not None:
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
