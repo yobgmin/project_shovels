@@ -297,38 +297,35 @@ class result_tbl:
 
 def findParent(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
-		if i.ParentImage:
-			print "ParentImage : ", i.ParentImage
-			return (i.ParentImage, i.ParentProcessId)
-		else:
-			return "NULL", "NULL"
+		print "ParentImage : ", i.ParentImage
+		return (i.ParentImage, i.ParentProcessId)
+
 
 def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
-		if i.Image:
-			print "ChildImage : ", i. Image
-			return (i.Image, i.ProcessID)
-		else:
-			return "NULL","NULL"
+		print "ChildImage : ", i. Image
+		return (i.Image, i.ProcessID)
+
 
 def network_connection(PrcImage, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(~network_connect_tbl.Hostname.like(HstName)):
-		if i.Image:
-			print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
-		else:
-			return "NULL","NULL","NULL","NULL","NULL"
+		print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
+
 
 def system_network_connection(EvtTime, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(~network_connect_tbl.Hostname.like(HstName)).filter(network_connect_tbl.Image.like('System')):
-		if i.Image:
-			print "System Net connect  ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
-		else:
-			return "NULL","NULL","NULL","NULL","NULL"
+		print "System Net connect  ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
+
 
 def printLine():
 	print "===================================================================================================="
+
+def host_prcess_create(EvtTime, HstName):
+	for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.like(EvtTime)):
+		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+		return (i.Image, i.EventTime, i.Hostname, i.CommandLine)
 
 
 Intell1=[]
@@ -385,7 +382,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
 			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	print '%'+i.TargetFilename.split('\\')[-1]
-	HstName = network_connection(findParent('%'+i.TargetFilename.split('\\')[-1], i.Hostname)
+
+	HstName = network_connection(findParent('%'+i.TargetFilename.split('\\')[-1]), i.Hostname)
 
 	if HstName is not None:
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
