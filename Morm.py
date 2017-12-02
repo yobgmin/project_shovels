@@ -337,7 +337,7 @@ def printLine():
 
 def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
-		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
 
 """
 Intell1=[]
@@ -390,6 +390,20 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 printLine()
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
+
+	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	HstName = None
+
+	Img = findParent_Image(i.Image, i.EventTime)
+	if Img:
+		Img = '%'+Img.split('\\')[-1]
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname, Img) # plus minus 2 seconds
+
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	print "\n"
 # not permitted RawAccessRead
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
