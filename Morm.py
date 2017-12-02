@@ -532,4 +532,4 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 
 printLine()
 for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).filter(sec_evt_tbl.SubjectDomainName.like('-')).filter(sec_evt_tbl.LogonType.like('3')):
-	print "Security Log - Remote", i.Image, i.EventTime, i.WorkstationName, i.SourceIp, i.DestinationIp
+	print "Security Log - Remote", i.EventTime, i.ProcessName, i.WorkstationName, i.SourceIp, i.DestinationIp
