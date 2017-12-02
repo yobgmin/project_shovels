@@ -380,7 +380,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 	print Img
-	if Img is not None:
+	if Img:
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, Img) # plus minus 2 seconds
 
 	if HstName is not None:
