@@ -316,13 +316,13 @@ def findChildren(PrcImage, PrcId):
 		return (i.Image, i.ProcessID)
 
 
-def network_connection(PrcImage, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(network_connect_tbl.DestinationHostname.like(HstName)):
+def network_connection(PrcImage, HstName, Img):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)):
 		print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
-def network_connection_EventTime(EvtTime, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))).filter(network_connect_tbl.DestinationHostname.like(HstName)):
+def network_connection_EventTime(EvtTime, HstName, Img):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))).filter(network_connect_tbl.Image.like(Img)):
 		print "Network Connection : ", i.EventTime, i.Image, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
@@ -381,7 +381,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
 	if Img is not None:
-		HstName = network_connection_EventTime(i.EventTime, i.Hostname) # plus minus 2 seconds
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname, Img) # plus minus 2 seconds
 
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname)
