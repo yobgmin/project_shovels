@@ -316,10 +316,9 @@ def findChildren(PrcImage, PrcId):
 		return (i.Image, i.ProcessID)
 
 
-def network_connection(PrcImage, HstName, Img):
+def network_connection(PrcImage, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)):
 		print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
 def network_connection_EventTime(EvtTime, HstName, Img):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))).filter(network_connect_tbl.Image.like(Img)):
@@ -349,13 +348,13 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	HstName = None
 
 	if i.ParentImage.find('WinrsHost.exe') > -1:
-		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%winrs.exe')
+		HstName = network_connection('%winrs.exe', i.Hostname)
 		if HstName is not None:
 			host_process_create(i.EventTime, i.Hostname)
 		print "\n"
 		continue
 	elif i.ParentImage.find('WmiPrvSE.exe') > -1:
-		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%wmic.exe')
+		HstName = network_connection('%wmic.exe', i.Hostname)
 		if HstName is not None:
 			host_process_create(i.EventTime, i.Hostname)
 		print "\n"
@@ -365,7 +364,6 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	Img = findParent_Image('%'+i.ParentImage.split('\\')[-1], i.EventTime)
 	if Img is not None:
 		PrcList.append(Img)
-	print PrcList
 	
 	for Img in PrcList:
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%'+Img.split('\\')[-1]) # plus minus 2 seconds
