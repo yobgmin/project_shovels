@@ -297,7 +297,7 @@ class result_tbl:
 
 def findParent(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
-		if i.ParentImage is not None:
+		if i is not None:
 			print "ParentImage : ", i.ParentImage
 			return i.ParentImage, i.ProcessID
 		else:
