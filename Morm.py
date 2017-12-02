@@ -339,7 +339,7 @@ def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
 
-
+"""
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')).filter(~proc_tbl.ParentImage.like('%cmd.exe')):
 	print i.EventTime, i.ProcessID,i.Image,i.ParentImage,i.Hostname
 	
@@ -351,14 +351,12 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	if u'winrshost.exe' in i.ParentImage:
 		HstName = network_connection('%winrs.exe', i.Hostname, i.EventTime)
 		if HstName is not None:
-			print "Entered"
 			host_process_create(i.EventTime, i.Hostname)
 		print "\n"
 		continue
 	elif u'WmiPrvSE.exe' in i.ParentImage:
 		HstName = network_connection('%wmic.exe', i.Hostname, i.EventTime)
 		if HstName is not None:
-			print "Entered"
 			host_process_create(i.EventTime, i.Hostname)
 		print "\n"
 		continue
@@ -375,7 +373,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		host_process_create(i.EventTime, i.Hostname)
 	print "\n"
 
-"""
+
 print "Up 1"
 x=0
 for in1 in Intell1_PImage:
@@ -391,7 +389,7 @@ for in1 in Intell1:
 		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 	x+=1
 #	print i.ProcessID,i.Image
-
+"""
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
@@ -431,24 +429,40 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
-"""
+	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	HstName = None
 
-"""	
+	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
+	if Img:
+		Img = '%'+Img.split('\\')[-1]
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname, Img) # plus minus 2 seconds
+
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	print "\n"
+
+
+	
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(proc_access_tbl.GrantedAccess.like('0x1010')).filter(proc_access_tbl.EventID.like('10')):
 	print "Mimikatz - logonpasswords", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
-	PrcList=[]
-	PrcList.append((i.SourceImage, i.ProcessID)
-	Img = i.SourceImage
-	Pid = i.ProcessID
-	while Img!=None:
-		PrcList.append((Img, Pid))
-		Img, Pid = findParent(Img, Pid)
-	for prc in PrcList:
-		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
-		if net_con[0]:
-			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
-				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]
+
+	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	HstName = None
+
+	Img = findParent_Image('%'+i.Image.split('\\')[-1], i.EventTime)
+	if Img:
+		Img = '%'+Img.split('\\')[-1]
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname, Img) # plus minus 2 seconds
+
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	print "\n"
+
 
 printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
