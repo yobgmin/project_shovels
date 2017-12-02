@@ -344,7 +344,7 @@ def host_prcess_create(EvtTime, HstName):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
 		return (i.Image, i.EventTime, i.Hostname, i.CommandLine)
 
-
+"""
 Intell1=[]
 Intell1_Guid=[]
 Intell1_PImage=[]
@@ -357,21 +357,6 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 	if(i.ParentImage is '%cmd.exe'):
 		upper(i.ParentProcessGuid)
-"""
-	PrcList=[]
-	Img = i.Image
-	Pid = i.ProcessID
-	temp = findParent(Img, Pid)
-
-	while temp is not None:
-		temp = findParent(Img, Pid)
-		Img = temp[0]
-		Pid = temp[1]
-	for prc in PrcList:
-		net_con = network_connection((prc[0], prc[1]), i.Hostname[0])
-		if net_con[0]:
-			for i in session.query(proc_tbl).filter(proc_tbl.EventTime.like(net_con[0])).filter(proc_tbl.Hostname.like(net_con[1])):
-				print "Process from Host", net_con[0], net_con[1], net_con[2], net_con[3], net_con[4]"""
 
 print "Up 1"
 x=0
@@ -388,6 +373,7 @@ for in1 in Intell1:
 		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 	x+=1
 #	print i.ProcessID,i.Image
+"""
 
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
@@ -399,7 +385,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
 			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	print '%'+i.TargetFilename.split('\\')[-1]
-	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1])
+	print "***************",findParent_Image('%'+i.TargetFilename.split('\\')[-1])
 
 	if Img is not None:
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname)
