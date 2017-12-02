@@ -371,6 +371,8 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 """
+print session.query(proc_tbl).filter(proc_tbl.Image.like('%PSEXESVC.exe'))
+
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%PSEXESVC.exe')):
 	print type(i)
 	print i.Image, i.EventTime
