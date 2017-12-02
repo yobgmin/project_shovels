@@ -299,7 +299,7 @@ def findParent(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
 		if i is not None:
 			print "ParentImage : ", i.ParentImage
-			return i.ParentImage, i.ProcessID
+			return i.ParentImage
 		else:
 			return None
 
@@ -392,7 +392,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1])
 	print Img
 	if Img is not None:
-		HstName = network_connection(Img[0], i.Hostname)
+		HstName = network_connection(Img, i.Hostname)
 	print HstName
 
 	if HstName is not None:
