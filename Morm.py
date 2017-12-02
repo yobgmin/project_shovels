@@ -483,8 +483,13 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 
 
 printLine()
+pat1 = re.compile("[ ]*net[ ]*use[ ]*\\\\.*$")
 for i in session.query(proc_tbl).filter(or_(proc_tbl.Image.like('%net1.exe'),proc_tbl.Image.like('%net.exe'))).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
+	if bool(pat1.match(i.CommandLine)):
+		print "net use Detected"
+	elif:
+		pass
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net view", i.Image, i.EventTime, i.Hostname
