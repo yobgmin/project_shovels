@@ -336,7 +336,7 @@ def system_network_connection(EvtTime, HstName):
 def printLine():
 	print "===================================================================================================="
 
-def host_prcess_create(EvtTime, HstName):
+def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
 
@@ -377,7 +377,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	HstName = system_network_connection(i.EventTime, i.Hostname)
 	print HstName
 	if HstName is not None:
-		host_prcess_create(i.EventTime, i.Hostname)
+		host_process_create(i.EventTime, i.Hostname)
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
