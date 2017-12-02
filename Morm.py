@@ -348,16 +348,9 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		host_process_create(i.EventTime, i.Hostname)
 	HstName = None
 
-	Img = i.Image
-	PrcList = [Img, ]
+	PrcList = [i.Image, i.ParentImage]
+	PrcList.append(findParent_Image('%'+i.ParentImage.split('\\')[-1], i.EventTime))
 
-	while 1:
-		print Img
-		Img = findParent_Image('%'+Img.split('\\')[-1], i.EventTime)
-		if Img is not None:
-			PrcList.append(Img)
-		else:
-			break
 	
 	for Img in PrcList:
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%'+Img.split('\\')[-1]) # plus minus 2 seconds
