@@ -322,7 +322,7 @@ def network_connection(PrcImage, PrcId, HstName):
 def system_network_connection(EvtTime, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(~network_connect_tbl.Hostname.like(HstName)).filter(network_connect_tbl.Image.like('System')):
 		if i.Image:
-			print "System Network Connect", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+			print "System Net connect  ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 		else:
 			return "NULL","NULL","NULL","NULL","NULL"
@@ -379,7 +379,13 @@ printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 
-	HstName = system_network_connection(i.EventTime, i.Hostname)
+	HstName = system_network_connection(i.EventTime, i.ProcessID, i.Hostname)
+
+	if HstName is not None:
+		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
+			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+
+	HstName = network_connection(i.EventTime, i.Hostname)
 
 	if HstName is not None:
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
