@@ -340,19 +340,11 @@ def host_process_create(EvtTime, HstName):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
 
 
-Intell1=[]
-Intell1_Guid=[]
-Intell1_PImage=[]
-Intell1_PGuid=[]
-for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')):
-	Intell1_Guid.append(i.ProcessGuid)#create object
-	Intell1.append(i.Image)
-	Intell1_PImage.append(i.ParentImage)
-	Intell1_PGuid.append(i.ParentProcessGuid)
-	print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
-	if(i.ParentImage is '%cmd.exe'):
-		upper(i.ParentProcessGuid)
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')).filter(~proc_tbl.ParentImage.like('%cmd.exe')):
+	print i.ProcessID,i.Image,i.ParentImage,i.Hostname, i.DestinationHostname
 
+
+"""
 print "Up 1"
 x=0
 for in1 in Intell1_PImage:
@@ -368,7 +360,7 @@ for in1 in Intell1:
 		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
 	x+=1
 #	print i.ProcessID,i.Image
-"""
+
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
