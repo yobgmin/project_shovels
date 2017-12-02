@@ -349,7 +349,9 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	HstName = None
 
 	PrcList = [i.Image, i.ParentImage]
-	PrcList.append(findParent_Image('%'+i.ParentImage.split('\\')[-1], i.EventTime))
+	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
+	if Img is not None:
+		PrcList.append(Img)
 
 	
 	for Img in PrcList:
