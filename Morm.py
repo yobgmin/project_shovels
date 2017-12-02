@@ -434,7 +434,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 		host_process_create(i.EventTime, i.Hostname)
 	HstName = None
 
-	Img = findParent_Image('%'+i.Image.split('\\')[-1], i.EventTime)
+	Img = findParent_Image('%'+i.SourceImage.split('\\')[-1], i.EventTime)
 	if Img:
 		Img = '%'+Img.split('\\')[-1]
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, Img) # plus minus 2 seconds
