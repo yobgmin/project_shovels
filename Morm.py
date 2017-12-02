@@ -347,13 +347,13 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		host_process_create(i.EventTime, i.Hostname)
 	HstName = None
 
-	if i.ParentImage is 'C:\Windows\System32\WinrsHost.exe':
+	if u'WinrsHost.exe' in i.ParentImage:
 		HstName = network_connection('%winrs.exe', i.Hostname)
 		if HstName is not None:
 			host_process_create(i.EventTime, i.Hostname)
 		print "\n"
 		continue
-	elif i.ParentImage is 'C:\Windows\System32\WmiPrvSE.exe':
+	elif u'WmiPrvSE.exe' in i.ParentImage:
 		HstName = network_connection('%wmic.exe', i.Hostname)
 		if HstName is not None:
 			host_process_create(i.EventTime, i.Hostname)
