@@ -388,7 +388,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	print '%'+i.TargetFilename.split('\\')[-1]
 	ParImg = findParent_Image('%'+i.TargetFilename.split('\\')[-1])
 	if ParImg is not None:
-		HstName = network_connection(findParent_Image(ParImg, i.Hostname)
+		HstName = network_connection(findParent_Image(ParImg, i.Hostname))
 	print HstName
 
 	if HstName is not None:
