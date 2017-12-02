@@ -315,12 +315,12 @@ def findChildren(PrcImage, PrcId):
 
 
 def network_connection(PrcImage, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(~network_connect_tbl.Hostname.like(HstName)):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(network_connect_tbl.DestinationHostname.like(HstName)):
 		print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
 def network_connection_EventTime(EvtTime, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(~network_connect_tbl.Hostname.like(HstName)):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(network_connect_tbl.DestinationHostname.like(HstName)):
 		if i is not None:
 			print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
