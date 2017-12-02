@@ -384,8 +384,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	HstName = system_network_connection(i.EventTime, i.Hostname)
 
 	if HstName is not None:
-		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(i.EventTime)):
-			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+		for j in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(i.EventTime)):
+			print "Host Process Create - ", j.Image, j.EventTime, j.Hostname, j.CommandLine
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1])
 
@@ -394,8 +394,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname)
 
 	if HstName is not None:
-		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(i.EventTime)):
-			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+		for j in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(i.EventTime)):
+			print "Host Process Create - ", j.Image, j.EventTime, j.Hostname, j.CommandLine
 	print "\n\n"
 
 printLine()
