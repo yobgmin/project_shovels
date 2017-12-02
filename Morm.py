@@ -387,7 +387,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	print '%'+i.TargetFilename.split('\\')[-1]
 
-	HstName = network_connection(findParent_Image('%'+i.TargetFilename.split('\\'))[-1], i.Hostname)
+	HstName = network_connection(findParent_Image('%'+i.TargetFilename.split('\\')[-1]), i.Hostname)
 	print HstName
 
 	if HstName is not None:
