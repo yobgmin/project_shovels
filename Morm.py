@@ -395,6 +395,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	if HstName is not None:
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
 			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+	print "\n\n"
 
 printLine()
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
