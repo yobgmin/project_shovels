@@ -299,14 +299,14 @@ def findParent(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
 		if i is not None:
 			print "ParentImage : ", i.ParentImage
-			return i.ParentImage
+			return i.ParentImage, i.ProcessID
 		else:
 			return None
 
 def findParent_Image(PrcImage):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)):
 		print "ParentImage : ", i.ParentImage
-		return i.ParentImage, i.ProcessID
+		return i.ParentImage
 
 def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
