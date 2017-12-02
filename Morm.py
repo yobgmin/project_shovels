@@ -342,6 +342,12 @@ def host_process_create(EvtTime, HstName):
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')).filter(~proc_tbl.ParentImage.like('%cmd.exe')):
 	print i.EventTime, i.ProcessID,i.Image,i.ParentImage,i.Hostname
+	
+	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
+	if HstName is not None:
+		host_process_create(i.EventTime, i.Hostname)
+	HstName = None
+
 	HstName = network_connection_EventTime(i.EventTime, i.Hostname, i.ParentImage) # plus minus 2 seconds
 
 	if HstName is not None:
