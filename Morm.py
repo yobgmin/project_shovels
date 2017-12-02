@@ -348,12 +348,22 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		host_process_create(i.EventTime, i.Hostname)
 	HstName = None
 
+	if i.ParentImage.contains('WinrsHost.exe'):
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%winrs.exe')
+		if HstName is not None:
+			host_process_create(i.EventTime, i.Hostname)
+		continue
+	elif i.ParentImage.contains('WmiPrvSE.exe'):
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%wmic.exe')
+		if HstName is not None:
+			host_process_create(i.EventTime, i.Hostname)
+		continue
+
 	PrcList = [i.Image, i.ParentImage]
 	Img = findParent_Image('%'+i.ParentImage.split('\\')[-1], i.EventTime)
 	if Img is not None:
 		PrcList.append(Img)
 	print PrcList
-
 	
 	for Img in PrcList:
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%'+Img.split('\\')[-1]) # plus minus 2 seconds
