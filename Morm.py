@@ -348,12 +348,13 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		host_process_create(i.EventTime, i.Hostname)
 	HstName = None
 
-	PrcList=[]
 	Img = i.Image
+	PrcList = [Img, ]
+
 	while 1:
 		print Img
 		Img = findParent_Image('%'+Img.split('\\')[-1], i.EventTime)
-		if Img is not None and Img is not i.ParentImage:
+		if Img is not None:
 			PrcList.append(Img)
 		else:
 			break
