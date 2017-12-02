@@ -321,11 +321,8 @@ def network_connection(PrcImage, HstName):
 
 def network_connection_EventTime(EvtTime, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(network_connect_tbl.DestinationHostname.like(HstName)):
-		if i is not None:
-			print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
-			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
-		else:
-			return None
+		print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
 def system_network_connection(EvtTime, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(~network_connect_tbl.Hostname.like(HstName)).filter(network_connect_tbl.Image.like('System')):
@@ -390,7 +387,6 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
 	if Img is not None:
-		print "Enter"
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname)
 
 	if HstName is not None:
