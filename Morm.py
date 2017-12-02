@@ -376,6 +376,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname) # plus minus 2 seconds
+	HstName = None
 
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
