@@ -407,22 +407,6 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		host_process_create(i.EventTime, i.Hostname)
 	print "\n"
 
-print "Up 1"
-x=0
-for in1 in Intell1_PImage:
-	for i in session.query(proc_tbl).filter(proc_tbl.Image==in1).filter(proc_tbl.ProcessGuid==Intell1_PGuid[x]).filter(proc_tbl.EventID=='1'):
-#		gid=whatgidx(i.ProcessGuid)
-		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid
-		#create object
-	x+=1
-print "Low 1"
-x=0
-for in1 in Intell1:
-	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage==in1).filter(proc_tbl.ParentProcessGuid==Intell1_Guid[x]).filter(proc_tbl.EventID=='1'):
-		print i.ProcessID,i.Image,i.ParentImage,i.ProcessGuid,i.ParentProcessGuid
-	x+=1
-#	print i.ProcessID,i.Image
-
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
