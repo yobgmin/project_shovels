@@ -337,7 +337,7 @@ def printLine():
 
 def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
-		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
+		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
 
 """
 Intell1=[]
@@ -373,15 +373,16 @@ printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 
-	HstName = system_network_connection(i.EventTime, i.Hostname)
+	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
 	print HstName
 	if HstName is not None:
-		host_process_create(i.EventTime, i.Hostname)
+		host_process_create(i.EventTime, i.Hostname) # plus minus 2 seconds
+
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
 	if Img is not None:
-		HstName = network_connection_EventTime(i.EventTime, i.Hostname) # plus minus 3 seconds
+		HstName = network_connection_EventTime(i.EventTime, i.Hostname) # plus minus 2 seconds
 
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname)
