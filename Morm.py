@@ -352,11 +352,13 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%winrs.exe')
 		if HstName is not None:
 			host_process_create(i.EventTime, i.Hostname)
+		print "\n"
 		continue
 	elif i.ParentImage.find('WmiPrvSE.exe') > -1:
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname, '%wmic.exe')
 		if HstName is not None:
 			host_process_create(i.EventTime, i.Hostname)
+		print "\n"
 		continue
 
 	PrcList = [i.Image, i.ParentImage]
