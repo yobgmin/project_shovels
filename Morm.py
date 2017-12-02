@@ -426,6 +426,7 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 		host_process_create(i.EventTime, i.Hostname)
 	print "\n"
 # not permitted RawAccessRead
+
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
@@ -465,7 +466,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 
 
 printLine()
-for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%net1.exe')).filter(~proc_tbl.Image.like('%net.exe')).filter(proc_tbl.EventID.like('1')):
+for i in session.query(proc_tbl).filter(or_(proc_tbl.Image.like('%net1.exe'),proc_tbl.Image.like('%net.exe'))).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
