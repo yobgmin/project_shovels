@@ -327,7 +327,7 @@ def network_connection_EventTime(EvtTime, HstName):
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
 def system_network_connection(EvtTime, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))).filter(~network_connect_tbl.Hostname.like(HstName)).filter(network_connect_tbl.Image.like('System')):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))).filter(network_connect_tbl.Image.like('System')):
 		print "System Net connect  ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
