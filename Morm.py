@@ -303,8 +303,8 @@ def findParent(PrcImage, PrcId):
 		else:
 			return None
 
-def findParent_Image(PrcImage):
-	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)):
+def findParent_Image(PrcImage, EvtTime):
+	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)).filter(network_connect_tbl.EventTime.like(EvtTime)):
 		print "ParentImage : ", i.ParentImage
 		return i.ParentImage
 
@@ -387,7 +387,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 		for j in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(HstName[0])):
 			print "Host Process Create - ", j.Image, j.EventTime, j.Hostname, j.CommandLine
 	print '%'+i.TargetFilename.split('\\')[-1]
-	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1])
+	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
 	if Img is not None:
 		print "Enter"
