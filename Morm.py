@@ -341,7 +341,7 @@ def host_process_create(EvtTime, HstName):
 
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')).filter(~proc_tbl.ParentImage.like('%cmd.exe')):
-	print i.ProcessID,i.Image,i.ParentImage,i.Hostname, i.DestinationHostname
+	print i.EventTime, i.ProcessID,i.Image,i.ParentImage,i.Hostname
 
 
 """
