@@ -276,6 +276,40 @@ class reg_tbl(Base):
 	def __repr__(self):
 		pass
 
+class sec_evt_tbl(Base):
+	__tablename__='sec_evt_tbl'
+	idx=Column(types.Integer,primary_key=True)
+	EventTime=Column(types.DateTime)
+	Hostname=Column(types.String)
+	EventID=Column(types.Integer)
+	SourceName=Column(types.String)
+	ProcessID=Column(types.Integer)
+	ThreadID=Column(types.Integer)
+	SubjectUserSid=Column(types.String)
+	SubjectUserName=Column(types.String)
+	SubjectDomainName=Column(types.String)
+	SubjectLogonId=Column(types.String)
+	TargetUserSid=Column(types.String)
+	TargetUserName=Column(types.String)
+	TargetDomainName=Column(types.String)
+	TargetLogonId=Column(types.String)
+	TargetServerName=Column(types.String)
+	LogonType=Column(types.String)
+	WorkstationName=Column(types.String)
+	ProcessName=Column(types.String)
+	IpAddress=Column(types.DateTime)
+	IpPort=Column(types.String)
+	EventReceivedTime=Column(types.DateTime)
+	SourceModuleName=Column(types.String)
+	SourceModuleType=Column(types.String)
+	TargetLogonId=Column(types.String)
+	EventReceviedTime=Column(types.String)
+
+	def __init__(self):
+		pass
+	def __repr__(self):
+		pass
+
 
 def whatgidex(guid):
 	for ii in session.query(result_tbl).filter(result_tbl.ProcessGuid==guid):
@@ -495,3 +529,7 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')).filter(network_connect_tbl.SourcePort is 5985):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
+
+printLine()
+for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).filter(sec_evt_tbl.SubjectDomain.like('-')).filter(sec_evt_tbl.LogonType.like('3')):
+	print "Security Log - Remote", i.Image, i.EventTime, i.WorkstationName, i.SourceIp, i.DestinationIp
