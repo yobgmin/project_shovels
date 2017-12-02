@@ -368,12 +368,6 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 """
-for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%PSEXESVC.exe')):
-	print type(i)
-	print i.Image, i.EventTime
-	print "\n\n"
-
-
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
