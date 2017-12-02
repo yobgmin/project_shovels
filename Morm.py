@@ -374,7 +374,7 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 """
-for i in session.query(proc_tbl):
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%PSEXESVC.exe')):
 	num=0
 	print i
 	num+=1
