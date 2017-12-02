@@ -311,8 +311,8 @@ def findChildren(PrcImage, PrcId):
 		else:
 			return "NULL","NULL"
 
-def network_connection(PrcImage, PrcId, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(~network_connect_tbl.Hostname.like(HstName)).filter(proc_tbl.ProcessID.like(PrcId)):
+def network_connection(PrcImage, HstName):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(~network_connect_tbl.Hostname.like(HstName)):
 		if i.Image:
 			print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 			return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
@@ -384,8 +384,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	if HstName is not None:
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
 			print "Host Process Create - ", i.Image, i.EventTime, i.Hostname, i.CommandLine
-
-	HstName = network_connection('%'+i.TargetFilename.split('\\')[-1], i.ProcessID, i.Hostname)
+	print '%'+i.TargetFilename.split('\\')[-1]
+	HstName = network_connection(findParent('%'+i.TargetFilename.split('\\')[-1], i.Hostname)
 
 	if HstName is not None:
 		for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[0])).filter(proc_tbl.EventTime.like(i.EventTime)):
