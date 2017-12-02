@@ -339,11 +339,7 @@ def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
 
-"""
-Intell1=[]
-Intell1_Guid=[]
-Intell1_PImage=[]
-Intell1_PGuid=[]
+
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')):
 	Intell1_Guid.append(i.ProcessGuid)#create object
 	Intell1.append(i.Image)
@@ -408,7 +404,7 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
 	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
-
+"""
 
 """	
 printLine()
