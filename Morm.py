@@ -316,8 +316,8 @@ def findChildren(PrcImage, PrcId):
 		return (i.Image, i.ProcessID)
 
 
-def network_connection(PrcImage, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)):
+def network_connection(PrcImage, HstName, EvtTime):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like(PrcImage)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))):
 		print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp, i.Image
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
