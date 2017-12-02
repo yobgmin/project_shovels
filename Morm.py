@@ -337,9 +337,8 @@ def printLine():
 	print "===================================================================================================="
 
 def host_prcess_create(EvtTime, HstName):
-	for i in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))):
+	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-3), EvtTime+timedelta(seconds=3))):
 		print "Host Process Create ", i.Image, i.EventTime, i.Hostname, i.CommandLine
-		return (i.Image, i.EventTime, i.Hostname, i.CommandLine)
 
 """
 Intell1=[]
@@ -378,8 +377,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	HstName = system_network_connection(i.EventTime, i.Hostname)
 	print HstName
 	if HstName is not None:
-		for j in session.query(proc_tbl).filter(proc_tbl.EventTime.like(HstName[0])):
-			print "Host Process Create - ", j.Image, j.EventTime, j.Hostname, j.CommandLine
+		host_prcess_create(i.EventTime, i.Hostname)
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
@@ -387,9 +385,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 		HstName = network_connection_EventTime(i.EventTime, i.Hostname) # plus minus 3 seconds
 
 	if HstName is not None:
-		for j in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(i.EventTime)):
-			print "Host Process Create - ", j.Image, j.EventTime, j.Hostname, j.CommandLine
-	print "\n\n"
+		host_process_create(i.EventTime, i.Hostname)
+	print "\n"
 
 printLine()
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
