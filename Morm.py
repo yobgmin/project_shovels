@@ -3,6 +3,8 @@ import os
 from sqlalchemy import types,create_engine,Column,Integer,String, and_, or_
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+import datetime
+from datetime import timedelta
 
 engine=create_engine('mysql://root:12345@localhost/winlogs?charset=utf8',convert_unicode=False)
 Session=sessionmaker(bind=engine)	#Create session object that can access query
@@ -320,7 +322,7 @@ def network_connection(PrcImage, HstName):
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
 def network_connection_EventTime(EvtTime, HstName):
-	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(EvtTime)).filter(network_connect_tbl.DestinationHostname.like(HstName)):
+	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds-=3), EvtTime+timedelta(seconds+=3))).filter(network_connect_tbl.DestinationHostname.like(HstName)):
 		print "Network Connection : ", i.EventTime, i.Image, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
@@ -380,9 +382,8 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	print '%'+i.TargetFilename.split('\\')[-1]
 	Img = findParent_Image('%'+i.TargetFilename.split('\\')[-1], i.EventTime)
 
-	EvtTime = i.EventTime[:-1]+'%'
 	if Img is not None:
-		HstName = network_connection_EventTime(EvtTime, i.Hostname)
+		HstName = network_connection_EventTime(EvtTime, i.Hostname) # plus minus 3 seconds
 
 	if HstName is not None:
 		for j in session.query(proc_tbl).filter(proc_tbl.Hostname.like(HstName[1])).filter(proc_tbl.EventTime.like(i.EventTime)):
