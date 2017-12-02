@@ -305,11 +305,8 @@ def findParent(PrcImage, PrcId):
 
 def findParent_Image(PrcImage):
 	for i in session.query(proc_tbl).filter(proc_tbl.Image.like(PrcImage)):
-		if i is not None:
-			print "ParentImage : ", i.ParentImage
-			return i.ParentImage
-		else:
-			return None
+		print "ParentImage : ", i.ParentImage
+		return i.ParentImage
 
 def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
@@ -374,7 +371,7 @@ for in1 in Intell1:
 	x+=1
 #	print i.ProcessID,i.Image
 """
-for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%sdfsdffsdfsd.exe')):
+for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%PSEXESVC.exe')):
 	print type(i)
 	print i.Image, i.EventTime
 	print "\n\n"
