@@ -374,7 +374,6 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
 
 	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
-	print HstName
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname) # plus minus 2 seconds
 
