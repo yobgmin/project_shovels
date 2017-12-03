@@ -346,7 +346,7 @@ def findParent_Image(PrcImage, EvtTime):
 		return i.ParentImage
 
 def findChildren(PrcImage, EvtTime):
-	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like(PrcImage)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-1), EvtTime+timedelta(seconds=2))):
+	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like(PrcImage)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-1), EvtTime+timedelta(seconds=2))):
 		print "ChildImage : ", i.Image
 		return i.Image
 
@@ -504,6 +504,7 @@ printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
 	findChildren(i.Image, i.EventTime)
+	print "\n"
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
@@ -512,11 +513,13 @@ printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmiexec.vbs", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	findChildren(i.Image, i.EventTime)
+	print "\n"
 	
 printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WinrsHost.exe')).filter(proc_tbl.EventID.like('1')):
 	print "winrs - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
 	findChildren(i.Image, i.EventTime)
+	print "\n"
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
@@ -526,4 +529,4 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 
 printLine()
 for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).filter(sec_evt_tbl.SubjectDomainName.like('-')).filter(sec_evt_tbl.LogonType.like('3')):
-	print "Security Log - Remote", i.EventTime, i.ProcessName, i.WorkstationName, i.TargetServerName
+	print "Security Log - Remote", i.EventTime, i.ProcessName, i.WorkstationName, i.TargetServerName, 
