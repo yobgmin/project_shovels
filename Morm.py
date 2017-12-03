@@ -363,7 +363,7 @@ def network_connection_EventTime(EvtTime, HstName, Img):
 
 def system_network_connection(EvtTime, HstName):
 	for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))).filter(network_connect_tbl.Image.like('System')):
-		print "System Net connect  ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
+		print "System Net connect : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 		return (i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp)
 
 
@@ -372,7 +372,7 @@ def printLine():
 
 def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
-		print "Host Process Create ", i.Image, i.EventTime, i.Hostname
+		print "Hst Process Create : ", i.Image, i.EventTime, i.Hostname
 
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')).filter(~proc_tbl.ParentImage.like('%cmd.exe')):
 	print i.EventTime, i.ProcessID,i.Image,i.ParentImage,i.Hostname
@@ -409,7 +409,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
-	print "System File Create -", i.EventTime, i.TargetFilename, i.Hostname
+	print "System File Create : ", i.EventTime, i.TargetFilename, i.Hostname
 
 	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
 	if HstName is not None:
@@ -446,7 +446,7 @@ for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.li
 
 printLine()
 for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like('%lsass.exe')).filter(~proc_access_tbl.SourceImage.like('%System32%')).filter(proc_access_tbl.EventID.like('8')):
-	print "PwDump(Remote) or WCE", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
+	print "PwDump(Remote) or WCE : ", i.SourceImage, i.TargetImage, i.EventTime, i.GrantedAccess, i.Hostname
 	HstName = system_network_connection(i.EventTime, i.Hostname) # plus minus 2 seconds
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname)
