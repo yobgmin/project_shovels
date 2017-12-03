@@ -346,7 +346,7 @@ def findParent_Image(PrcImage, EvtTime):
 		return i.ParentImage
 
 def findChildren(PrcImage, EvtTime):
-	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=0), EvtTime+timedelta(seconds=2))):
+	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like(PrcImage)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=0), EvtTime+timedelta(seconds=2))):
 		print "ChildImage : ", i. Image
 		return i.Image
 
@@ -488,10 +488,10 @@ netshare=re.compile(".*net1\s+share\s+.*\\:.*")
 for i in session.query(proc_tbl).filter(or_(proc_tbl.Image.like('%net1.exe'),proc_tbl.Image.like('%net.exe'))).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	if bool(netuse.match(i.CommandLine)):
-		print "net use Detected"
+		print "net use Detected\n"
 		system_network_connection(i.EventTime, i.Hostname)
 	elif bool(netshare.match(i.CommandLine)):
-		print "net share(shareFolder create) Detected"
+		print "net share(shareFolder create) Detected\n"
 		system_network_connection(i.EventTime, i.Hostname)
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
@@ -511,6 +511,7 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmiexec.vbs", i.Image, i.EventTime, i.Hostname, i.CommandLine
+	findChildren(i.Image, i.EventTime)
 	
 printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WinrsHost.exe')).filter(proc_tbl.EventID.like('1')):
