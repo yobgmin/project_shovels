@@ -348,7 +348,7 @@ def findParent_Image(PrcImage, EvtTime):
 def findChildren(PrcImage, PrcId):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
 		print "ChildImage : ", i. Image
-		return (i.Image, i.ProcessID)
+		return i.Image
 
 
 def network_connection(PrcImage, HstName, EvtTime):
@@ -483,13 +483,14 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 
 
 printLine()
-pat1 = re.compile("[ ]*net[ ]*use[ ]*\\\\.*$")
+netuse = re.compile("\s*net\s+use\s+\\\\.*$")
+netshare=re.compile("\s*net\s+share\s+.*\\:.*")
 for i in session.query(proc_tbl).filter(or_(proc_tbl.Image.like('%net1.exe'),proc_tbl.Image.like('%net.exe'))).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
-	if bool(pat1.match(i.CommandLine)):
+	if bool(netuse.match(i.CommandLine)):
 		print "net use Detected"
-	else:
-		pass
+	elif bool(netshare.match(i.CommandLine)):
+		print "net share(shareFolder create) Detected"
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net view", i.Image, i.EventTime, i.Hostname
