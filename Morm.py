@@ -345,8 +345,8 @@ def findParent_Image(PrcImage, EvtTime):
 		print "ParentImage : ", i.ParentImage, i.Image
 		return i.ParentImage
 
-def findChildren(PrcImage, PrcId):
-	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)):
+def findChildren(PrcImage, EvtTime):
+	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=0), EvtTime+timedelta(seconds=2))):
 		print "ChildImage : ", i. Image
 		return i.Image
 
@@ -484,7 +484,7 @@ for i in session.query(proc_access_tbl).filter(proc_access_tbl.TargetImage.like(
 
 printLine()
 netuse = re.compile("\s*net\s+use\s+\\\\.*$")
-netshare=re.compile("\s*net\s+share\s+.*\\:.*")
+netshare=re.compile(".*net1\s+share\s+.*\\:.*")
 for i in session.query(proc_tbl).filter(or_(proc_tbl.Image.like('%net1.exe'),proc_tbl.Image.like('%net.exe'))).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	if bool(netuse.match(i.CommandLine)):
@@ -503,6 +503,7 @@ for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter
 printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
 	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
+	findChildren(i.Image, i.EventTime)
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "wmic - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
@@ -514,6 +515,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WScript.exe')).fil
 printLine()
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WinrsHost.exe')).filter(proc_tbl.EventID.like('1')):
 	print "winrs - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
+	findChildren(i.Image, i.EventTime)
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
