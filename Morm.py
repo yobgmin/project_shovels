@@ -346,7 +346,7 @@ def findParent_Image(PrcImage, EvtTime):
 		return i.ParentImage
 
 def findChildren(PrcImage, EvtTime):
-	for i in session.query(proc_tbl).filter(proc_tbl.ParnetImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=0), EvtTime+timedelta(seconds=2))):
+	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like(PrcImage)).filter(proc_tbl.ProcessID.like(PrcId)).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=0), EvtTime+timedelta(seconds=2))):
 		print "ChildImage : ", i. Image
 		return i.Image
 
