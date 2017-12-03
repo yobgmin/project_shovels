@@ -488,11 +488,13 @@ netshare=re.compile(".*net1\s+share\s+.*\\:.*")
 for i in session.query(proc_tbl).filter(or_(proc_tbl.Image.like('%net1.exe'),proc_tbl.Image.like('%net.exe'))).filter(proc_tbl.EventID.like('1')):
 	print "net1.exe, net.exe", i.Image, i.EventTime, i.Hostname, i.CommandLine
 	if bool(netuse.match(i.CommandLine)):
-		print "net use Detected\n"
+		print "net use Detected"
 		system_network_connection(i.EventTime, i.Hostname)
+		print "\n"
 	elif bool(netshare.match(i.CommandLine)):
-		print "net share(shareFolder create) Detected\n"
+		print "net share(shareFolder create) Detected"
 		system_network_connection(i.EventTime, i.Hostname)
+		print "\n"
 
 for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter(pipe_tbl.PipeName.like('\browser')).filter(pipe_tbl.EventID.like('18')):
 	print "net1.exe - net view", i.Image, i.EventTime, i.Hostname
