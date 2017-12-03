@@ -347,7 +347,7 @@ def findParent_Image(PrcImage, EvtTime):
 
 def findChildren(PrcImage, EvtTime):
 	for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like(PrcImage)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-1), EvtTime+timedelta(seconds=2))):
-		print "ChildImage : ", i.Image
+		print "ChildImage : ", i.Image, i.Hostname, i.CommandLine
 		return i.Image
 
 
@@ -503,9 +503,8 @@ for i in session.query(pipe_tbl).filter(pipe_tbl.Image.like('%net1.exe')).filter
 	print "net1.exe - net use", i.Image, i.EventTime, i.Hostname
 
 printLine()
-for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
-	print "wmic - Destination", i.Image, i.EventTime, i.Hostname, i.ParentImage
-	findChildren('%'+i.Image.split('\\')[-1], i.EventTime)
+for i in session.query(proc_tbl).filter(proc_tbl.ParentImage.like('%WmiPrvSE.exe')).filter(proc_tbl.EventID.like('1')):
+	print "wmic - Destination", i.EventTime, i.Hostname, i.ParentImage, i.Image
 	print "\n"
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%wmic.exe')).filter(network_connect_tbl.EventID.like('3')):
