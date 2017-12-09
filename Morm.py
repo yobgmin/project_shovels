@@ -532,7 +532,7 @@ printLine()
 for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).filter(sec_evt_tbl.SubjectDomainName.like('-')).filter(sec_evt_tbl.LogonType.like('3')):
 	print "Security Log - Remote", i.EventTime, i.ProcessName, i.Hostname, i.LogonType
 	if i.LogonType=='3':
-		for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4672')).filter(sec_evt_tbl.EventTime.between(i.EventTime+timedelta(seconds=-2), i.EventTime+timedelta(seconds=2))).filter(~sec_evt_tbl.Hostname.like(i.Hostname)):
+		for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4648')).filter(sec_evt_tbl.EventTime.between(i.EventTime+timedelta(seconds=-2), i.EventTime+timedelta(seconds=2))).filter(~sec_evt_tbl.Hostname.like(i.Hostname)):
 			print "Security Log - Source-----", i.EventTime, i.ProcessName, i.Hostname, i.LogonType
 		
 
