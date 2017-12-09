@@ -373,7 +373,7 @@ def printLine():
 def host_process_create(EvtTime, HstName):
 	for i in session.query(proc_tbl).filter(~proc_tbl.Hostname.like(HstName)).filter(proc_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
 		print "Hst Process Create : ", i.Image, i.EventTime, i.Hostname
-
+"""
 for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(~proc_tbl.ParentImage.like('%explorer.exe')).filter(~proc_tbl.ParentImage.like('%vmtoolsd.exe')).filter(~proc_tbl.ParentImage.like('%cmd.exe')):
 	print i.EventTime, i.ProcessID,i.Image,i.ParentImage,i.Hostname
 	
@@ -527,7 +527,7 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 
 for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.like('%winrs.exe')).filter(network_connect_tbl.EventID.like('3')).filter(network_connect_tbl.SourcePort is 5985):
 	print "winrs - Source", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
-
+"""
 printLine()
 for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).filter(sec_evt_tbl.SubjectDomainName.like('-')).filter(sec_evt_tbl.LogonType.like('3')):
 	print "Security Log - Remote", i.EventTime, i.ProcessName, i.WorkstationName, i.TargetServerName
