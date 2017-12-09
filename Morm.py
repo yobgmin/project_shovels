@@ -536,5 +536,3 @@ for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).fil
 			print "Security Log - Source:", i.EventTime, i.ProcessName, i.Hostname, i.EventID
 			i.ProcessName = '%'+i.ProcessName.split('\\')[-1]
 			network_connection_EventTime(i.EventTime, i.Hostname, i.ProcessName) # plus minus 2 seconds
-		for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.like(i.EventTime)).filter(network_connect_tbl.EventID.like('3')):
-			print "Network Connection", i.Image, i.EventTime, i.Hostname, i.SourceIp, i.DestinationIp
