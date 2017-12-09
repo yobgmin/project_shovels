@@ -534,6 +534,6 @@ for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).fil
 	if i.LogonType=='3':
 		for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4672')).filter(sec_evt_tbl.EventTime.between(i.EventTime+timedelta(seconds=-2), i.EventTime+timedelta(seconds=2))).filter(~sec_evt_tbl.Hostname.like(i.Hostname)):
 			print "Security Log - Source-----", i.EventTime, i.ProcessName, i.Hostname, i.LogonType
-		for i in session.query(network_connect_tbl).filter(network_connect_tbl.EventTime.between(i.EventTime+timedelta(seconds=-2), i.EventTime+timedelta(seconds=2))):
+		for i in session.query(network_connect_tbl).filter(or_(network_connect_tbl.Hostname.like(i.Hostname),network_connect_tbl.DestinationHostname.like(i.Hostname))).filter(network_connect_tbl.EventTime.between(i.EventTime+timedelta(seconds=-2), i.EventTime+timedelta(seconds=2))):
 			print "Network Connection : ", i.EventTime, i.Hostname, i.DestinationHostname, i.SourceIp, i.DestinationIp
 
