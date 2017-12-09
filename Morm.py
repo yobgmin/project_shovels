@@ -531,6 +531,6 @@ for i in session.query(network_connect_tbl).filter(network_connect_tbl.Image.lik
 printLine()
 for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4624')).filter(sec_evt_tbl.SubjectDomainName.like('-')).filter(sec_evt_tbl.LogonType.like('3')):
 	print "Security Log - Remote", i.EventTime, i.ProcessName, i.Hostname, i.LogonType
-	if i.LogonType is 3:
+	if i.LogonType=='3':
 		for i in session.query(sec_evt_tbl).filter(sec_evt_tbl.EventID.like('4672')).filter(network_connect_tbl.EventTime.between(EvtTime+timedelta(seconds=-2), EvtTime+timedelta(seconds=2))):
 			print "Security Log - Remote22222", i.EventTime, i.ProcessName, i.Hostname, i.LogonType
