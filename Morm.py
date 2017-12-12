@@ -406,7 +406,7 @@ for i in session.query(proc_tbl).filter(proc_tbl.Image.like('%cmd.exe')).filter(
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname)
 	print "\n"
-
+"""
 printLine()
 for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.like('%System32%')).filter(file_create_tbl.Image.like('System')).filter(~file_create_tbl.TargetFilename.like('%System Volume Information%')):
 	print "System File Create : ", i.EventTime, i.TargetFilename, i.Hostname
@@ -424,7 +424,7 @@ for i in session.query(file_create_tbl).filter(~file_create_tbl.TargetFilename.l
 	if HstName is not None:
 		host_process_create(i.EventTime, i.Hostname)
 	print "\n"
-
+"""
 printLine()
 for i in session.query(raw_access_read_tbl).filter(~raw_access_read_tbl.Image.like('%Everything.exe')).filter(~raw_access_read_tbl.Image.like('System')).filter(~raw_access_read_tbl.Image.like('%System32%')).filter(~raw_access_read_tbl.Image.like('%TrustedInstaller.exe')):
 	print i.ProcessID, i.Image, i.EventTime, i.Hostname
